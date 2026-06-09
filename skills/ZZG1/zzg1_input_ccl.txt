@@ -1,0 +1,9 @@
+# ZZG1 CCL 行业研究 7.1 input
+# 行业: 覆铜板 (Copper Clad Laminate) + 玻纤布 (上游材料)
+# 标的池筛选规则: A 股行业本体, 总市值降序
+600183 shengyi
+688519 nanya
+002636 jinan
+603186 huazheng
+603256 honghe
+600176 china_jushi

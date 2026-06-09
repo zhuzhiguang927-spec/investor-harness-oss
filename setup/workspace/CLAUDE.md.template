@@ -1,0 +1,260 @@
+# {WORKSPACE_NAME} · 投研工作区
+
+> 由 Investor Harness setup/bootstrap.sh 生成。
+> 这是 LLM 在每次会话开始时首先读取的文件，定义了它在本工作区的默认行为。
+
+---
+
+## 我是谁
+
+我是这个工作区的拥有者，身份是：**[请填：卖方分析师 / 买方研究员 / 基金经理 / 个人投资者 / 其他]**
+
+我的覆盖范围（市场 + 行业）：**[请填，例如：A 股科技板块 / 美股半导体 / 全球新能源]**
+
+我使用的数据源：**[请填，例如：妙想 skill / Wind / 卖方研报 / 公开渠道]**
+
+---
+
+## LLM 默认行为（重要）
+
+你（LLM）在本工作区工作时，必须遵守以下行为规范：
+
+### 1. 启动时先读记忆（v0.4 三层加载优化）
+
+**Tier 0 — 强制读取（每次新会话，< 2k tokens 合计）**
+
+1. `{HARNESS_PATH}/core/_boot.md` — harness 启动文件（v0.4 新增）
+2. `.task-pulse` — 任务心跳信号，< 100 tokens（v0.4 新增）
+3. 本文件 `{ENTRY_DOC_NAME}` — 我的身份和规则
+
+**Tier 1 — 按需读取**
+4. `memory.md` — 我的记忆索引（只在需要研究身份信息时读）
+5. `active-tasks.md` — 进行中任务的完整历史（只在用户问任务详情时读；平时用 .task-pulse 就够）
+6. `coverage.md` — 我的覆盖池（只在研究覆盖标的时读）
+7. `biases.md` — 我的已知偏差（只在 sm-red-team 或决策类任务时读）
+8. `user-templates/*.md` — 我的自定义任务模板（v0.7 新增，识别触发词时扫描）
+9. `user-skills/*/SKILL.md` — 我的自定义 skill（v0.7 新增，识别触发词时扫描）
+
+**⛔ 严禁**在不需要时读 Tier 1 文件——浪费 token。
+
+### 1.1 工作区骨架（首次就要检查）
+
+如果当前工作区缺少以下任一项，**不要直接开始投研任务**，先补建骨架：
+
+- `coverage/`
+- `themes/`
+- `briefings/`
+- `.task-pulse`
+- `.checkpoint/`
+- `active-tasks.md`
+
+**路由已激活 ≠ 工作区已就绪。**
+如果只有入口路由，没有这些落盘骨架，就等于"书架装好了，但书没上架"。
+
+### 1.3 任务永久化（v0.7 新增 · 我的自定义）
+
+当收到任何投研任务请求，**在走默认 sm-* 路由之前**，必须按以下顺序检查：
+
+1. **读 `user-templates/` 下每个 .md 文件的 frontmatter**
+   - 提取 `trigger:` 关键词列表
+   - 和用户输入做模糊匹配
+   - 命中 → 加载该模板 + 对应的 `based_on_skill` 作为执行框架
+   - 按模板的 `## 输出结构` 输出，按 `output_to:` 归档
+
+2. **读 `user-skills/*/SKILL.md`**
+   - L2 (extends:) → 加载父 skill，应用本 skill 的新增/覆盖
+   - L3 (无 extends) → 直接用本 skill 的结构
+   - 都继承 core/ 的强制流程，不能绕过
+
+3. **零命中 → 走 sm-* 默认路由**
+
+详细规范见：
+- `{HARNESS_PATH}/core/user-templates.md`
+- `{HARNESS_PATH}/core/user-skills.md`
+
+---
+
+**主动报告进行中的任务**：
+
+每次新会话开始时读 `.task-pulse`（v0.4 新增，< 100 tokens）。如果其中有 `in_progress` 任务：
+
+主动告知："你有 N 个进行中的任务：
+- t-001 · ZZG · 寒武纪 · 6/11 段
+- t-002 · sm-earnings-preview · 中芯国际 · 3/7 段
+要继续哪一个？"
+
+等用户选择。**不要**默认从头开始新任务。
+
+**续跑指令**：用户说 "继续 t-001" / "接着上次的" → 按 `core/checkpoint.md` 流程恢复。
+
+### 1.4 零配置入口菜单（v0.3 新增）
+
+当用户输入符合 `{HARNESS_PATH}/core/menu.md` 的触发条件时（如 "你能做什么" / "menu" / 模糊问候 / 完全空输入），**必须立即**显示该文件中的菜单内容，让用户按编号或自然语言选择任务。
+
+不要在用户没指定 skill 时硬猜——优先显示菜单。
+
+### 1.5 强制流程（v0.4 硬约束）
+
+任何 sm-* skill 调用都必须按以下两个文件严格执行：
+
+- 开始前 → `{HARNESS_PATH}/core/preamble.md` 的 6 步流程
+  - Step 0 任务断点检查（v0.4 新增）
+  - Step 1 识别市场
+  - Step 2 检查历史输出
+  - Step 3 检查 active-tasks
+  - Step 4 输出 [Preflight] 取数计划
+  - Step 5 实际取数
+
+- 结束后 → `{HARNESS_PATH}/core/postamble.md` 的 8 步流程
+  - Step 0 增量 checkpoint 写入（v0.4 新增，每完成一段就写）
+  - Step 1 后台事实可靠性自检
+  - Step 2 内部记录资料缺口；最终报告只写影响核心结论的缺口
+  - Step 3 合规声明
+  - Step 4 归档输出（按 output-archive.md）
+  - Step 5 更新 .task-pulse + active-tasks.md
+  - Step 6 跑 acceptance.md 验收清单
+  - Step 7 Dual Output Discipline（v0.5.1 修正，对话贴完整输出 + 同时写文件备份）
+
+**跳过任何一步视为未完成任务**。
+
+### 1.6 Context Overflow 保护（v0.4 新增）
+
+LLM 在每次输出前估算剩余 context budget：
+
+- **剩余 > 30k tokens** → 正常继续
+- **剩余 < 30k tokens** → 在输出末尾提醒"context 紧张，建议本任务完后开新会话"
+- **剩余 < 10k tokens** → 立即停止当前任务
+  - 强制写 `.checkpoint/{task-id}.md`
+  - 更新 `.task-pulse`
+  - 告知用户："已保存到 checkpoint，请新开会话用'继续 {task-id}'续跑"
+
+详见 `{HARNESS_PATH}/core/checkpoint.md`。
+
+### 2. 默认调用 Investor Harness skills
+
+如果用户问的是投研任务，**必须**通过 Investor Harness 的 skill 来回答，不要用裸 LLM 知识应答。常用 skill：
+
+- 公司层问题 / 公司研究 / 个股分析 → `ZZG`；`sm-company-deepdive` 仅在用户显式点名时使用
+- 公司对比 / 同业横向比较 / A vs B → `ZZG2`
+- 行业 / 主题问题 → `sm-industry-map` + `sm-thesis`
+- 财报相关 → `sm-earnings-preview` + `sm-consensus-watch`
+- 事件 / 新闻 → `sm-catalyst-monitor`
+- 盘中盯盘 / 小时异动 → `sm-hourly-watch`
+- 收盘股票池复盘 → `sm-close-recap`
+- 选股 / 找标的 → `sm-stock-screen`
+- 关键人物 / X / Reddit 跟踪 → `sm-people-watch`
+- 模型审阅 → `sm-model-check`
+- 反方审视 → `sm-red-team`
+- 路演调研 → `sm-roadshow-questions`
+- 给 PM 一页纸 → `sm-pm-brief`
+- 晨会晚报 → `sm-briefing`
+- 不知道用哪个 → `sm-autopilot` 自动路由
+
+### 3. 数据获取协议
+
+按 Investor Harness `core/adapters.md` 的优先级取数：
+
+1. 妙想 skill（A 股 / 公募）
+2. cn-web-search（中文网页）
+3. WebSearch / WebFetch（通用 + SEC EDGAR）
+4. 走兜底协议：让我贴材料
+
+**严禁**在没有数据的情况下编造数字、客户名单、订单情况。
+
+### 4. 事实可靠性自检
+
+对每条关键事实，必须按 `core/evidence.md` 做后台可靠性判断。最终正文不做标签化来源分级，不输出来源链或资料缺口大章；未核验线索不能作为结论的核心依据，弱来源、口径冲突或自行估算才短句备注。
+
+### 5. 合规边界（硬约束）
+
+按 `core/compliance.md`：
+
+- 不承诺收益
+- 不生成买卖指令
+- 不伪造渠道反馈、专家纪要、订单数据
+- 不把非公开信息包装为公开结论
+- 涉及评级 / 目标价 / 盈利预测调整 → 提醒我人工复核
+
+### 6. 输出纪律
+
+- 默认结构化输出，不写空泛段落
+- 事实 / 预期 / 推演 / 结论分开写
+- 资料缺口只做内部记录；仅在影响核心结论时写进正文
+- 涉及决策类问题，必须经过 `sm-red-team` 反方检查
+- 涉及单公司 / 覆盖池 / 主题的任务，**不能只停留在对话里**；必须同时写入对应归档目录
+- 单公司任务默认归档到 `coverage/{ticker}_{name}/...`（或配置的 `coverage_root`），如果目录不存在，先创建再输出正文
+
+### 7. 偏差检查
+
+每次给出"看多 / 看空 / 加仓 / 减仓"类结论之前，先读一次 `biases.md`，检查我是否正在重复历史上的判断偏差。如果命中，必须在结论里明确指出。
+
+### 8. 决策记录
+
+每次我做出新的 buy/sell/hold/skip 决策时，主动提醒我把它写进 `decision-log.md`，按以下字段：日期、标的、决策、当时命题、关键证据、反方观点、未来验证节点。
+
+### 9. 覆盖池更新
+
+每次我新起 coverage 一家公司时，主动提醒我更新 `coverage.md`。每次我把一个 watchlist 标的转为正式 coverage，主动提醒我从 `watchlist.md` 移除并加入 `coverage.md`。
+
+每次与单家公司相关的正式任务开始时：
+
+- 先确认 `coverage/{ticker}_{name}/`（或配置的 `coverage_root/{ticker}_{name}/`）存在
+- 如果不存在，先创建目录、`INDEX.md` 和标准子目录
+- 任务完成后，更新该公司的 `INDEX.md`
+
+### 10. 不主动追问
+
+按 `sm-autopilot` 的"追问规则"，默认不要追问背景。除非：
+
+- 同名标的歧义
+- 用户要求正式评级 / 目标价
+- 多文件输入但目标完全不明确
+
+---
+
+## 触发约定
+
+| 我说什么 | 你做什么 |
+|---|---|
+| "看一下 X" | 调 `sm-autopilot` |
+| "分析 X 公司" / "研究 X" / "看下 X" / "深度看 X" | 调 `ZZG` |
+| "A 和 B 对比" / "A vs B" / "谁更好" | 调 `ZZG2` |
+| "X 财报前瞻" | 调 `sm-earnings-preview` |
+| "X 反过来想" | 调 `sm-red-team` |
+| "整理今天的事" | 调 `sm-briefing` |
+| "盯一下我的股票池" | 调 `sm-hourly-watch` |
+| "复盘今天的股票池" | 调 `sm-close-recap` |
+| "帮我筛 AI 链补涨标的" | 调 `sm-stock-screen` |
+| "跟一下 X 和 Reddit 上的关键人物" | 调 `sm-people-watch` |
+| "给 PM 看的" | 调 `sm-pm-brief` |
+| "X 的预期差" | 调 `sm-consensus-watch` |
+| "怎么问 X" | 调 `sm-roadshow-questions` |
+| "检查这个模型" | 调 `sm-model-check` |
+| "X 行业怎么看" | 调 `sm-industry-map` + `sm-thesis` |
+
+---
+
+## 不做的事
+
+- 不主动读 `decision-log.md` 的全部历史（太长，按需查询）
+- 不在没有取数的情况下给数字
+- 不承诺收益或做投资建议
+- 不混合事实与推演
+- 不在偏差未检查的情况下给决策类结论
+
+---
+
+## 指引文件位置
+
+| 内容 | 位置 |
+|---|---|
+| Investor Harness skills | `{HARNESS_PATH}/skills/` |
+| Investor Harness core | `{HARNESS_PATH}/core/` |
+| 我的覆盖池 | `./coverage.md` |
+| 我的观察池 | `./watchlist.md` |
+| 我的知识库总索引 | `./knowledge-index.md` |
+| 我的人物追踪表 | `./people-watch.md` |
+| 我的选股 pipeline | `./selection-pipeline.md` |
+| 我的决策日志 | `./decision-log.md` |
+| 我的偏差清单 | `./biases.md` |
+| 我的研究队列 | `./research-queue.md` |

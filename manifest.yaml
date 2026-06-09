@@ -1,0 +1,332 @@
+# Investor Harness 套件清单
+# harness 开发者和 LLM 可读，用于发现、路由、依赖校验
+
+name: investor-harness
+display_name: Investor Harness
+version: 0.9.2
+description: 投研人的 AI 任务执行规范。公司/个股研究默认入口统一为 ZZG，行业研究为 ZZG1，公司对比为 ZZG2，事件驱动机会分析为 ZZG3；这些 skill 共享 Investor Harness 资料来源和归档规则。本地新增 ZZG3 事件驱动投资机会分析入口，覆盖从事件/变化材料筛选投资候选公司的场景。本地新增 ZZG2 公司对比分析入口。v0.9.2 新增 sm-industry-database（产业 / 公司数据库搭建），要求关键数据来源和口径备查，弱来源/口径冲突/自行估算才在正文短句备注。v0.9.1 新增 ONBOARDING 流程——首次启动 agent 时自动展示功能 + 关键词路由表，用户输入"同意"后 agent 自动检测 harness 类型（Claude Code / Codex / OpenCode / OpenClaw）+ 在对应入口 MD（CLAUDE.md / AGENTS.md）追加带 BEGIN/END marker 的路由块。v0.9 Librarian 升级（6 个 opt-in skill）。v0.8 sm-deck-builder。v0.7 L1/L2/L3 用户自定义。
+license: MIT
+author: Joan Song
+homepage: https://github.com/joansongjr/investor-harness
+
+compatible_harnesses:
+  - claude-code
+  - codex
+  - opencode
+  - openclaw
+  - generic  # 任何支持"读取相对路径 markdown"的 harness
+
+# 三大痛点定位 + v0.4 新增：上下文溢出保护
+solves:
+  - hallucination: 强制取数协议 + 来源/口径备查 + 关键缺口短句备注
+  - task_forgetting: 持久化记忆系统 + .task-pulse + .checkpoint 断点续跑
+  - lack_of_structure: 31 个标准化 skill + 输出归档协议 + 验收清单
+  - context_overflow: 三层加载（Tier 0/1/2）+ 输出文件化 + Echo 简化 + 断点续跑
+
+# 数据源：全部可选。skill 会按 adapters.md 的优先级逐级降级
+data_sources:
+  optional:
+    - name: ima-mcp-knowledge-bases
+      description: IMA MCP 固定知识库；四个正文可稳定读取的知识库作为 A 股、港股、美股公司/行业研究的首要资料来源，爱分享仅作为补充线索源；具体知识库 ID 见 core/adapters.md
+      primary_knowledge_bases:
+        - name: 「智汇研」券商投行研报精选（持续更新）
+          id: "7314697732761447"
+        - name: 「研万里」A股上市公司调研纪要记录表
+          id: "7318298278502342"
+        - name: 「研智声」机构电话会议&路演调研纪要精选
+          id: "7317148598805324"
+        - name: 「研讯龙」机构调研纪要点评精选
+          id: "7312507911810753"
+      supplemental_knowledge_bases:
+        - name: 【爱分享】的财经资讯
+          id: "7357029865780274"
+          limitation: 部分 PDF 正文无法通过 IMA MCP 稳定读取，仅作补充检索线索，不作为优先检索源。
+    - name: miaoxiang-skill
+      description: 妙想 skill，覆盖 A 股、港股、美股、公募、宏观、资讯等综合投研资料
+      skills:
+        - 妙想 skill
+    - name: cn-web-search
+      description: 中文网页搜索 skill，聚合 17 个免费搜索引擎
+    - name: websearch
+      description: harness 内置的通用英文搜索（所有主流 harness 默认可用）
+    - name: webfetch
+      description: harness 内置的网页抓取（所有主流 harness 默认可用）
+  fallback: 用户手动贴材料（所有 skill 必须支持此模式）
+
+markets:
+  - code: CN-A
+    name: A股（沪深）
+  - code: CN-FUND
+    name: 公募基金
+  - code: HK
+    name: 港股
+  - code: US
+    name: 美股
+  - code: GLOBAL
+    name: 跨市场主题
+
+skills:
+  - id: sm-master
+    path: skills/sm-master
+    tier: entry
+    description: 单 skill 长形态总控，7 模式全量，适合"只装一个 skill"
+  - id: sm-autopilot
+    path: skills/sm-autopilot
+    tier: entry
+    description: 轻量路由入口，自动串联下游 skill
+  - id: sm-thesis
+    path: skills/sm-thesis
+    tier: framing
+  - id: sm-industry-map
+    path: skills/sm-industry-map
+    tier: framing
+  - id: ZZG1
+    path: skills/ZZG1
+    tier: framing
+    description: 行业研究默认入口，覆盖行业/赛道/产业链/主题研究并上传 IMA Industry Analysis。
+  - id: ZZG
+    path: skills/ZZG
+    tier: research
+    description: 公司/个股研究默认入口。命中“分析/研究/看下/深度看/起 coverage 某家公司或个股”时使用，输出完整公司研究报告并上传 IMA Company Analysis。
+  - id: sm-company-deepdive
+    path: skills/sm-company-deepdive
+    tier: research
+  - id: ZZG2
+    path: skills/ZZG2
+    tier: research
+    description: 公司对比分析默认入口。命中“对比/比较/vs/谁更好/相对估值/同业对比/可比公司分析”时使用，输出完整横向比较报告并上传 IMA Comparison Analysis。
+  - id: ZZG3
+    path: skills/ZZG3
+    tier: research
+    description: 事件驱动投资机会分析默认入口。命中“这件事对某家公司有啥影响/这件事对哪些公司利好/这个业绩怎么看/事件驱动分析/事件驱动选股/这段变化哪些公司受益/哪些公司值得投资/哪些票值得看”时使用，输出公司影响判断与候选公司分层，并上传 IMA Event Driven Analysis。
+  - id: sm-earnings-preview
+    path: skills/sm-earnings-preview
+    tier: research
+  - id: sm-model-check
+    path: skills/sm-model-check
+    tier: research
+  - id: sm-consensus-watch
+    path: skills/sm-consensus-watch
+    tier: research
+  - id: sm-industry-database
+    path: skills/sm-industry-database
+    tier: research
+    description: 产业 / 公司数据库搭建，沉淀 Excel 指标库、来源日志和长期刷新底表 — v0.9.2 新增
+  - id: sm-catalyst-monitor
+    path: skills/sm-catalyst-monitor
+    tier: monitoring
+  - id: sm-roadshow-questions
+    path: skills/sm-roadshow-questions
+    tier: monitoring
+  - id: sm-red-team
+    path: skills/sm-red-team
+    tier: challenge
+  - id: sm-pm-brief
+    path: skills/sm-pm-brief
+    tier: output
+  - id: sm-briefing
+    path: skills/sm-briefing
+    tier: output
+  # v0.5 新增技术面 skill
+  - id: sm-tape-review
+    path: skills/sm-tape-review
+    tier: technical
+    description: 盘面 + 技术面复盘（K 线 / 量价 / 指标 / 关键位 / 一致性检验）— v0.5 新增
+  # v0.8 新增演示/汇报 skill
+  - id: sm-deck-builder
+    path: skills/sm-deck-builder
+    tier: presentation
+    description: 投研 PPT 生成 · UI 设计 + 研报包装（10 段 IC pitch / 6 段 roadshow / 8 段 earnings review / 5 段 monthly / 15 段 client pitch）— v0.8 新增
+    depends_on:
+      - sm-thesis            # 命题来源
+      - ZZG                  # 公司内容
+      - sm-red-team          # Risk 页
+      - anthropic-skills:pptx  # 底层 PPT 生成引擎
+  # v0.3 新增 batch skills
+  - id: sm-batch-refresh
+    path: skills/sm-batch-refresh
+    tier: batch
+    description: 覆盖池批量刷新（行情/财务/股东/催化）— v0.3 新增
+  - id: sm-batch-earnings
+    path: skills/sm-batch-earnings
+    tier: batch
+    description: 财报季批量前瞻 / 复盘 — v0.3 新增
+  - id: sm-catalyst-sweep
+    path: skills/sm-catalyst-sweep
+    tier: batch
+    description: 覆盖池每日 / 每周催化剂扫描 — v0.3 新增
+  # v0.9 Librarian 升级 skill
+  - id: sm-wiki-build
+    path: skills/sm-wiki-build
+    tier: librarian
+    description: 新建 coverage 时构建 14 段 wiki page — v0.9 新增
+  - id: sm-daily-feed
+    path: skills/sm-daily-feed
+    tier: librarian
+    description: 每天扫 vault 生成 7 桶 daily feed，刷新 wiki §4 — v0.9 新增
+  - id: sm-question-list
+    path: skills/sm-question-list
+    tier: librarian
+    description: 见分析师 / 管理层前生成 question list + vault 扫描 — v0.9 新增
+  - id: sm-health-check
+    path: skills/sm-health-check
+    tier: librarian
+    description: 双层健康检查 + 跨源仲裁，让 wiki 自己维护自己 — v0.9 新增
+  - id: sm-qa-archive
+    path: skills/sm-qa-archive
+    tier: librarian
+    description: 会后 Q&A 归档 + wiki 级联更新（双链复利执行端）— v0.9 新增
+
+core:
+  - path: core/evidence.md
+    purpose: 后台事实可靠性自检；正文不做标签化来源分级，弱来源/口径冲突/估算才备注
+  - path: core/compliance.md
+    purpose: 合规边界与表达规范
+  - path: core/templates.md
+    purpose: 输出模板
+  - path: core/workflows.md
+    purpose: skill 协作顺序与团队映射
+  - path: core/adapters.md
+    purpose: 数据源优先级决策树
+  - path: core/markets.md
+    purpose: 市场识别与分市场差异
+  # v0.3 新增 core
+  - path: core/preamble.md
+    purpose: 强制开始前流程（识别市场→检查历史→检查任务→Preflight→实际取数）— v0.3 新增
+  - path: core/postamble.md
+    purpose: 强制结束后流程（证据自检→仍需补→合规声明→归档→更新任务→验收）— v0.3 新增
+  - path: core/output-archive.md
+    purpose: 输出归档命名规范 — v0.3 新增
+  - path: core/acceptance.md
+    purpose: 输出验收清单（通用 + 各 skill 专属）— v0.3 新增
+  - path: core/menu.md
+    purpose: 零配置入口菜单（首次使用 / 模糊输入时显示）— v0.3 新增
+  - path: core/_boot.md
+    purpose: 启动文件（每次新会话第一个读，~1.2k tokens）— v0.4 新增
+  - path: core/task-pulse.md
+    purpose: .task-pulse 心跳信号文件格式规范 — v0.4 新增
+  - path: core/checkpoint.md
+    purpose: .checkpoint/ 断点续跑机制规范 — v0.4 新增
+  - path: core/user-templates.md
+    purpose: L1 用户任务模板规范（日报/周报/月报等）— v0.7 新增
+  - path: core/user-skills.md
+    purpose: L2 继承 + L3 自创 skill 规范 — v0.7 新增
+  # v0.9 Librarian 升级 core
+  - path: core/librarian.md
+    purpose: Librarian 升级总览（从记忆系统到主动投研助手）— v0.9 新增
+  - path: core/wiki-architecture.md
+    purpose: 14 段 wiki page 标准结构 — v0.9 新增
+  - path: core/daily-feed.md
+    purpose: 7 桶 daily feed 聚合规则 — v0.9 新增
+  - path: core/qa-double-link.md
+    purpose: Question List + Q&A 双链复利机制 — v0.9 新增
+  - path: core/health-check.md
+    purpose: 双层健康检查 + 跨源仲裁 — v0.9 新增
+  - path: core/full-qc.md
+    purpose: 全链路 QC 五层（一致性是过程的产物）— v0.9 新增
+
+user_install_prompt:
+  path: INSTALL-PROMPT.md
+  purpose: 用户复制粘贴到 ~/.claude/CLAUDE.md 的强制启用提示词，让 LLM 自动遵守 harness 规则 — v0.5 新增
+  critical: true
+
+onboarding:
+  path: ONBOARDING.md
+  purpose: 首次启动 agent 时由 agent 读取的引导流程——列出 31 个 skill + 关键词路由表，等用户明确"同意"后自动写入 harness 入口 MD — v0.9.1 新增
+  critical: true
+  related:
+    - setup/keyword-routes.md       # 31 个 skill 关键词路由表（single source of truth）
+    - skills/sm-industry-database/SKILL.md
+    - skills/ZZG/SKILL.md
+    - skills/ZZG3/SKILL.md
+    - setup/routes-block.template.md # 要插入用户入口 MD 的标准块（带 BEGIN/END marker）
+
+workspace_templates:
+  - path: setup/workspace/CLAUDE.md.template
+    purpose: 分析师 persona + 默认行为
+  - path: setup/workspace/memory.md.template
+    purpose: 记忆索引
+  - path: setup/workspace/coverage.md.template
+    purpose: 覆盖池清单
+  - path: setup/workspace/watchlist.md.template
+    purpose: 观察池
+  - path: setup/workspace/decision-log.md.template
+    purpose: 投资决策日志
+  - path: setup/workspace/biases.md.template
+    purpose: 已知偏差清单
+  - path: setup/workspace/research-queue.md.template
+    purpose: 待研究队列
+  - path: setup/workspace/active-tasks.md.template
+    purpose: 任务进度持久化 — v0.3 新增
+
+recommended_workflows:
+  company_research:
+    - ZZG
+    - sm-consensus-watch
+    - sm-red-team
+    - sm-pm-brief
+  company_comparison:
+    - ZZG2
+  industry_research:
+    - sm-thesis
+    - sm-industry-map
+    - sm-pm-brief
+  earnings_season:
+    - sm-earnings-preview
+    - sm-consensus-watch
+    - sm-model-check
+    - sm-pm-brief
+  event_driven:
+    - sm-catalyst-monitor
+    - sm-consensus-watch
+    - sm-pm-brief
+  daily_briefing:
+    - sm-briefing
+  # v0.3 新增批量工作流
+  weekly_coverage_refresh:
+    - sm-batch-refresh
+    - sm-catalyst-sweep
+    - sm-briefing
+  earnings_season_full:
+    - sm-batch-earnings
+    - sm-consensus-watch
+    - sm-pm-brief
+  daily_morning_routine:
+    - sm-catalyst-sweep
+    - sm-briefing
+  # v0.5 新增技术面工作流
+  daily_tape_review:
+    - sm-tape-review
+  add_position_decision:
+    - sm-thesis
+    - sm-red-team
+    - sm-tape-review
+    - sm-pm-brief
+  # v0.8 新增 deck 生成工作流
+  ic_pitch_full:
+    - sm-thesis
+    - ZZG
+    - sm-consensus-watch
+    - sm-red-team
+    - sm-deck-builder         # 最后一步：转成 PPT
+  roadshow_prep:
+    - ZZG
+    - sm-roadshow-questions
+    - sm-deck-builder
+  earnings_review_deck:
+    - sm-earnings-preview
+    - sm-consensus-watch
+    - sm-deck-builder
+  # v0.9 Librarian 工作流
+  onboarding_new_coverage:
+    - sm-wiki-build
+    - sm-health-check
+    - sm-thesis
+  daily_librarian_loop:
+    - sm-daily-feed
+    - sm-health-check
+  pre_meeting_briefing:
+    - sm-question-list
+  post_meeting_archive:
+    - sm-qa-archive
+    - sm-health-check

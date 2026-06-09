@@ -1,0 +1,10 @@
+{
+  "client_id": "YOUR_IMA_CLIENT_ID",
+  "api_key": "YOUR_IMA_API_KEY",
+  "notebooks": {
+    "Company Analysis": "YOUR_COMPANY_ANALYSIS_FOLDER_ID",
+    "Industry Analysis": "YOUR_INDUSTRY_ANALYSIS_FOLDER_ID",
+    "Comparison Analysis": "YOUR_COMPARISON_ANALYSIS_FOLDER_ID",
+    "Event Driven Analysis": "YOUR_EVENT_DRIVEN_ANALYSIS_FOLDER_ID"
+  }
+}

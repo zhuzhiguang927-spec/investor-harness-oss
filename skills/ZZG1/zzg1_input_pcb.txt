@@ -1,0 +1,14 @@
+# ZZG1 行业研究 7.1 input 样板（PCB 行业）
+# 生成方式：Agent 通过 cn-web-search / 浏览器搜索「国内 PCB 头部上市公司」「PCB 行业 A 股龙头」等关键词，
+# 过滤出 A 股上市、行业本体（不含 CCL/铜箔/树脂/玻纤布/材料/设备），
+# 按总市值降序取前 5-10 家。每行格式：code name_zh
+002384 dongshan
+300476 shenghong
+002463 hudian
+002916 shennan
+002938 pengding
+688183 shengyi
+001389 guanghe
+603228 jingwang
+002436 xingsen
+002815 chongda
