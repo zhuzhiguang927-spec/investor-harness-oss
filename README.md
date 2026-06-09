@@ -2,13 +2,15 @@
 
 > 投研场景下的 AI 任务执行规范与 skill 路由系统。
 
-Investor Harness 是一套面向二级市场研究工作的 agent harness。它把“怎么看公司、怎么看行业、怎么做对比、怎么从事件里找候选公司”沉淀成可执行的 Markdown skill、关键词路由、质量闸门和数据源优先级，让 AI 不只是回答问题，而是按投研流程完成任务。
+Investor Harness 是一套面向二级市场研究工作的 agent harness，**尤其针对中国 A 股投研场景优化**。它把“怎么看公司、怎么看行业、怎么做对比、怎么从事件里找候选公司”沉淀成可执行的 Markdown skill、关键词路由、质量闸门和数据源优先级，让 AI 不只是回答问题，而是按投研流程完成任务。
+
+Many public AI investing tools are built around US equities first. Investor Harness is designed from the other direction: it starts with the habits and constraints of China A-share research, including Chinese sell-side reports, company announcements, financial statements, industry-chain mapping, comparable-company work, and event-driven opportunity analysis. The maintainer has senior practitioner experience in A-share investment research, and the workflow reflects that operating context.
 
 The public edition focuses on four readable research entry skills: `company-analysis`, `industry-research`, `company-comparison`, and `event-driven-opportunity`. Reports are designed to be returned as complete Markdown in the current conversation.
 
 ## Why This Matters
 
-Most agent workflows fail in long, evidence-heavy domains for the same reasons: they blur facts and assumptions, skip source checks, lose task state, or produce outputs that cannot be reviewed later. Investor Harness turns those failure modes into explicit workflow rules.
+Most agent workflows fail in long, evidence-heavy domains for the same reasons: they blur facts and assumptions, skip source checks, lose task state, or produce outputs that cannot be reviewed later. China A-share research makes those problems sharper because the useful evidence is often spread across Chinese sell-side reports, exchange announcements, annual reports, company filings, industry data, and fast-moving market narratives. Investor Harness turns those failure modes into explicit workflow rules.
 
 The project is useful beyond finance because it shows a reusable pattern for domain-specific agents:
 
@@ -19,6 +21,19 @@ The project is useful beyond finance because it shows a reusable pattern for dom
 - keep compliance and uncertainty visible
 
 This makes it a practical reference project for builders working on agentic research, due diligence, analyst workflows, and other high-context knowledge work.
+
+## A-Share First Design
+
+Investor Harness is not a generic US-stock wrapper translated into Chinese. It is organized around A-share research workflows:
+
+- reading Chinese broker / sell-side report bodies before qualitative conclusions
+- anchoring facts in company announcements, annual reports, quarterly reports, and exchange disclosures
+- mapping industry chains, supply-demand logic, and comparable listed companies
+- separating public facts, financial disclosures, market consensus, reasoning, and assumptions
+- handling event-driven questions such as policies, earnings surprises, price changes, orders, and industry data
+- returning complete Markdown research notes that can be reviewed by analysts or reused in follow-up work
+
+The project can also handle Hong Kong and US equities, but its strongest fit is Chinese A-share company, industry, comparison, and event-driven research.
 
 ## What It Does
 
@@ -75,7 +90,7 @@ More detail: [docs/QUICKSTART.md](docs/QUICKSTART.md).
 
 ## Research Source Discipline
 
-For A-share, Hong Kong stock, and US stock company or industry research, the harness expects the following source order:
+For A-share, Hong Kong stock, and US stock company or industry research, the harness expects the following source order. The A-share workflow is the primary design target:
 
 1. Recent five-year broker / sell-side research report text or PDF.
 2. Company announcements and financial reports.

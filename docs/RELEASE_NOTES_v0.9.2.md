@@ -2,6 +2,8 @@
 
 This is the first public OSS-ready release of Investor Harness.
 
+Investor Harness is especially optimized for China A-share research workflows, including Chinese sell-side reports, company announcements, financial statements, industry-chain mapping, comparable-company work, and event-driven opportunity analysis.
+
 ## Highlights
 
 - Adds four readable core research routes:
@@ -12,7 +14,7 @@ This is the first public OSS-ready release of Investor Harness.
 - Makes complete Markdown-in-conversation output the default public completion model.
 - Removes public dependency on private notebook uploads or local report directories.
 - Adds public-safe synthetic examples for all four core routes.
-- Refreshes source discipline around broker reports, official disclosures, structured data, and web search.
+- Refreshes source discipline around Chinese broker reports, official disclosures, structured data, and web search.
 - Adds security, contribution, roadmap, and publishing documentation.
 
 ## Who This Is For
