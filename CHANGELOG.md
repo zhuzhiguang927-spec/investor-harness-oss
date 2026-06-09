@@ -9,10 +9,9 @@
 - Updated the public completion model so core reports are returned as complete Markdown in the current conversation.
 - Strengthened broker-report-first research discipline for A-share, Hong Kong stock, and US stock workflows.
 - Added data-agent and validation helpers for company reports.
+- Added public-safe synthetic examples for all four core research routes.
+- Added OpenAI OSS support notes for maintainers and grant applications.
 - Updated keyword routing so common Chinese research prompts map to the correct skill automatically.
-
-## 0.9.2
-
 - Added `sm-industry-database` for industry and company database construction.
 - Improved source and口径 tracking for structured research outputs.
 - Expanded setup and bootstrap workflows.
