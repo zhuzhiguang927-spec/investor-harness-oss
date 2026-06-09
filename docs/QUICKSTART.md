@@ -44,25 +44,16 @@ Examples:
 
 | Prompt | Expected route |
 |---|---|
-| `分析英伟达` | `ZZG` |
-| `PCB 行业框架` | `ZZG1` |
-| `宁德时代和比亚迪谁更好` | `ZZG2` |
-| `这次政策对哪些公司利好` | `ZZG3` |
+| `分析英伟达` | `company-analysis` |
+| `PCB 行业框架` | `industry-research` |
+| `宁德时代和比亚迪谁更好` | `company-comparison` |
+| `这次政策对哪些公司利好` | `event-driven-opportunity` |
 | `给 PM 一页纸` | `sm-pm-brief` |
 | `看一下今天为什么涨跌` | `sm-close-recap` |
 
 ## 5. Completion Standards
 
-For ZZG-family research, a task is not complete until the full Markdown report has been written locally and uploaded to the required IMA notebook.
-
-| Route | Required notebook |
-|---|---|
-| Company / stock research | `Company Analysis` |
-| Industry research | `Industry Analysis` |
-| Company comparison | `Comparison Analysis` |
-| Event-driven opportunity analysis | `Event Driven Analysis` |
-
-If upload fails or no success confirmation is available, the agent should report the task as unfinished.
+For the four core research routes, a task is complete when the agent returns the full Markdown report in the current conversation. The public edition does not require local report-file output or external service upload.
 
 ## 6. Useful Files
 

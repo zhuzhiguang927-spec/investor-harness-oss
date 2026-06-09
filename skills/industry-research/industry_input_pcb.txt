@@ -1,4 +1,4 @@
-# ZZG1 行业研究 7.1 input 样板（PCB 行业）
+# industry-research 行业研究 7.1 input 样板（PCB 行业）
 # 生成方式：Agent 通过 cn-web-search / 浏览器搜索「国内 PCB 头部上市公司」「PCB 行业 A 股龙头」等关键词，
 # 过滤出 A 股上市、行业本体（不含 CCL/铜箔/树脂/玻纤布/材料/设备），
 # 按总市值降序取前 5-10 家。每行格式：code name_zh

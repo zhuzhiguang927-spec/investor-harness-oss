@@ -20,10 +20,10 @@ markets: [CN-A, HK, US]
 >
 > ⛔ **任何输出完成之前**，必须严格执行 [`../../core/postamble.md`](../../core/postamble.md) 的 6 步结束后流程
 >
-> 输出归档按 [`../../core/output-archive.md`](../../core/output-archive.md) 命名规范
+> 默认在当前会话输出完整 Markdown；如用户需要，可参考 [`../../core/output-archive.md`](../../core/output-archive.md) 做可选归档
 > 输出验收按 [`../../core/acceptance.md`](../../core/acceptance.md) 清单逐条自检
 >
-> **跳过任何一环视为未完成任务。**
+> **跳过资料核验、结构完整性或合规自检视为未完成任务。**
 
 Company Deepdive 是最吃数据的 skill，缺数据时**严禁**开始输出结论。如果 preamble 拿不到关键数据（最近一期财报、股东、可比公司），必须走兜底协议让用户贴材料。
 

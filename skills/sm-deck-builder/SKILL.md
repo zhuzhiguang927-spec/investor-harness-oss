@@ -28,10 +28,10 @@ markets: [CN-A, HK, US, GLOBAL]
 >
 > ⛔ **任何 deck 完成之前**，必须严格执行 [`../../core/postamble.md`](../../core/postamble.md) 的 8 步结束后流程
 >
-> 输出归档按 [`../../core/output-archive.md`](../../core/output-archive.md) 命名规范
+> 默认在当前会话输出完整 Markdown；如用户需要，可参考 [`../../core/output-archive.md`](../../core/output-archive.md) 做可选归档
 > 输出验收按 [`../../core/acceptance.md`](../../core/acceptance.md) 清单逐条自检
 >
-> **跳过任何一环视为未完成任务。**
+> **跳过资料核验、结构完整性或合规自检视为未完成任务。**
 
 Deck Builder 特别注意：
 - **preamble Step 2 必须读取** 同标的最新的 `sm-company-deepdive` / `sm-thesis` / `sm-red-team` / `sm-earnings-preview` / `sm-consensus-watch` 的归档输出。没有这些研究底稿，**禁止**直接生成 deck。
@@ -392,10 +392,10 @@ typography:
    ↓
 7. Postamble (8 steps)
    ↓
-8. Dual Output Discipline:
+8. Conversation Markdown Output:
    - 对话贴 markdown 预览（每页标题 + 核心内容）
    - 文件写 .pptx 真正的 PowerPoint
-   - 末尾追加 📁 已归档提示 + 关键统计
+   - 末尾追加关键统计和下一步建议
 ```
 
 ### 输入与输出的数据契约
@@ -542,7 +542,7 @@ sm-thesis → sm-company-deepdive → sm-red-team → sm-consensus-watch
                                                      IC pitch PPT
 ```
 
-## Dual Output Discipline
+## Conversation Markdown Output
 
 对话里输出：
 1. Deck 的 10 slides markdown 大纲（完整内容，方便云端用户阅读）

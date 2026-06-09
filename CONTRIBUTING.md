@@ -2,7 +2,7 @@
 
 Thanks for helping improve Investor Harness.
 
-This project is a Markdown-first workflow harness for AI-assisted investment research. Contributions should improve reproducibility, source discipline, routing clarity, archival behavior, or maintainability.
+This project is a Markdown-first workflow harness for AI-assisted investment research. Contributions should improve reproducibility, source discipline, routing clarity, report quality, or maintainability.
 
 ## Good Contribution Areas
 
@@ -21,7 +21,6 @@ Run:
 git status --short --branch
 git diff --check
 python -m compileall skills -q
-node --check skills/ZZG/upload_to_ima.cjs
 ```
 
 Also scan for accidental private data:
@@ -35,7 +34,7 @@ rg -n --hidden --glob '!*.git/**' --glob '!node_modules/**' -i "(api[_-]?key|sec
 - Keep changes scoped.
 - Avoid hard-coded local paths.
 - Do not commit real credentials, notebook IDs, private research, or browser sessions.
-- Prefer placeholders such as `{HARNESS_ROOT}`, `{OUTPUT_ROOT}`, and local config examples.
+- Prefer placeholders such as `{HARNESS_ROOT}` for environment-specific paths.
 - Add or update documentation when changing routing behavior.
 
 ## Financial Disclaimer

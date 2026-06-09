@@ -13,7 +13,7 @@
 - **id**: task-001
 - **created**: 2026-04-07
 - **target**: 寒武纪 (688256.SH)
-- **skill**: ZZG
+- **skill**: company-analysis
 - **type**: deepdive
 - **status**: in_progress
 - **progress**: 已完成 §1 公司定位 / §2 业务拆分 / §3 收入驱动；卡在 §4 利润驱动，需补 2024 Q4 毛利率
@@ -57,7 +57,7 @@
 ### queue-001
 
 - **target**: 海光信息 (688041.SH)
-- **skill**: ZZG
+- **skill**: company-analysis
 - **type**: new_coverage
 - **priority**: high
 - **created**: 2026-04-07

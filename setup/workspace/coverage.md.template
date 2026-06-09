@@ -33,7 +33,7 @@
 新公司进入覆盖前必须走：
 
 1. `sm-thesis` — 写出投资命题
-2. `ZZG` — 公司基本面 / 个股研究默认入口
+2. `company-analysis` — 公司基本面 / 个股研究默认入口
 3. `sm-industry-map` — 行业框架（如果没做过）
 4. `sm-red-team` — 反方审视
 5. 命题 + deepdive + red-team 的输出归档到 `coverage/{ticker}_{name}/`，并维护该目录下的 `INDEX.md`

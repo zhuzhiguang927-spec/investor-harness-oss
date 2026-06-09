@@ -71,7 +71,7 @@ grep -l "investor-harness:keyword-routes" \
 >
 > ▸ **入口路由**（2）：`sm-autopilot`（模糊请求自动判断走哪个）/ `sm-master`（7 模式总控）
 > ▸ **命题与框架**（2）：`sm-thesis`（投资命题）/ `sm-industry-map`（行业框架）
-> ▸ **单点研究**（8）：`ZZG`（公司/个股研究默认入口）/ `sm-company-deepdive`（公司深度，显式调用备用）/ `ZZG2`（公司对比分析）/ `ZZG3`（事件驱动机会分析）/ `sm-earnings-preview`（财报前瞻）/ `sm-model-check`（模型审阅）/ `sm-consensus-watch`（一致预期 + 预期差）/ `sm-industry-database`（产业 / 公司数据库搭建）
+> ▸ **单点研究**（8）：`company-analysis`（公司/个股研究默认入口）/ `sm-company-deepdive`（公司深度，显式调用备用）/ `company-comparison`（公司对比分析）/ `event-driven-opportunity`（事件驱动机会分析）/ `sm-earnings-preview`（财报前瞻）/ `sm-model-check`（模型审阅）/ `sm-consensus-watch`（一致预期 + 预期差）/ `sm-industry-database`（产业 / 公司数据库搭建）
 > ▸ **跟踪监控**（5）：`sm-catalyst-monitor`（催化剂事件）/ `sm-roadshow-questions`（路演调研问题）/ `sm-catalyst-sweep`（覆盖池催化扫描）/ `sm-hourly-watch`（小时级盯盘）/ `sm-close-recap`（收盘复盘）
 > ▸ **反方挑战**（1）：`sm-red-team`（空头逻辑 / 反方审视）
 > ▸ **选股发现**（1）：`sm-stock-screen`（选股 / 主题筛标的）
@@ -88,13 +88,13 @@ grep -l "investor-harness:keyword-routes" \
 >
 > 1. **🚀 推荐：自动激活路由（一键写入入口 MD）**
 >    我把这张路由表写入你 AI agent 的入口 MD 文件（Claude Code → `~/.claude/CLAUDE.md`；Codex → `~/.codex/AGENTS.md` 等）。
->    下次你说"看看 X"或"深度看 X"或"反过来想 X"，AI 自动按对应 skill 工作；公司研究默认走 `ZZG`，不用你每次手动说"用 sm-xxx 跑"。
+>    下次你说"看看 X"或"深度看 X"或"反过来想 X"，AI 自动按对应 skill 工作；公司研究默认走 `company-analysis`，不用你每次手动说"用 sm-xxx 跑"。
 >
 > 2. **手动复制**
 >    自己把 [`setup/routes-block.template.md`](setup/routes-block.template.md) 整块复制到你的入口 MD（适合想自己审一遍内容的用户）。
 >
 > 3. **每次显式调用**
->    不写入路由，每次手动说"用 ZZG 跑 NVDA"。最透明但最啰嗦。
+>    不写入路由，每次手动说"用 company-analysis 跑 NVDA"。最透明但最啰嗦。
 
 ### 第 3 步 · 请求明确同意（硬约束 ⛔）
 
@@ -236,13 +236,13 @@ grep -c "investor-harness:keyword-routes" <target_md>
 ### 你装的是什么
 
 **Investor Harness v0.9.2** — 投研人的 AI 任务执行规范。开源，MIT 协议。
-GitHub: https://github.com/joansongjr/investor-harness
+GitHub: https://github.com/zhuzhiguang927-spec/investor-harness-oss
 
 ### 它解决的问题
 
 - ❶ **幻觉**：AI 不再编数据——关键事实必须经过可靠性自检；正文不做标签化来源分级，只有弱来源、口径冲突或自行估算时才短句备注来源/口径
 - ❷ **健忘**：跨 session 续跑、覆盖池持久化
-- ❸ **不成体系**：31 个标准化 skill，所有输出归档到固定路径
+- ❸ **不成体系**：31 个标准化 skill，默认输出完整 Markdown；需要时可接入可选归档路径
 - ❹ **上下文溢出**：三层加载 + checkpoint 续跑
 - ❺ **🆕 被动**（v0.9 Librarian 解决）：AI 不再只是"你问什么它答什么"——每天主动扫 vault、刷新 wiki、跑健康检查
 
@@ -255,7 +255,7 @@ GitHub: https://github.com/joansongjr/investor-harness
 每次手动调用：
 
 ```
-你：用 ZZG 跑 NVDA
+你：用 company-analysis 跑 NVDA
 你：用 sm-red-team 反过来想 NVDA 多头逻辑
 你：用 sm-wiki-build 给 NVDA 起 wiki page
 你：用 sm-hourly-watch 盯一下我的股票池

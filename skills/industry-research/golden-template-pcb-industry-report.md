@@ -1,10 +1,10 @@
-﻿# ZZG1 行业研究 · Golden Template (PCB 行业研究报告)
+# industry-research 行业研究 · Golden Template (PCB 行业研究报告)
 
 > 来源: Public example template. Replace with a private template in local deployments if needed.
 > 
-> 用途: ZZG1 写新行业报告前必读, 对齐 10 段结构 + 7.1/7.2/7.3 子章节 + 定性风格 + 来源可靠性口径
+> 用途: industry-research 写新行业报告前必读, 对齐 10 段结构 + 7.1/7.2/7.3 子章节 + 定性风格 + 来源可靠性口径
 > 
-> 更新 golden template: 从 IMA 重新 get_doc_content 后覆盖本文件
+> 更新 golden template: 用公开可再分发模板更新本文件
 
 ---
 

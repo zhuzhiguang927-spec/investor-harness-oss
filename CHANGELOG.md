@@ -1,14 +1,14 @@
 # Changelog
 
-## 0.9.2 + ZZG Extensions
+## 0.9.2
 
-- Added `ZZG` as the default company / individual-stock research entry.
-- Added `ZZG1` as the default industry research entry.
-- Added `ZZG2` as the default company comparison entry.
-- Added `ZZG3` as the default event-driven investment opportunity entry.
-- Added IMA upload completion gates for company, industry, comparison, and event-driven reports.
+- Added `company-analysis` as the default company / individual-stock research entry.
+- Added `industry-research` as the default industry research entry.
+- Added `company-comparison` as the default company comparison entry.
+- Added `event-driven-opportunity` as the default event-driven investment opportunity entry.
+- Updated the public completion model so core reports are returned as complete Markdown in the current conversation.
 - Strengthened broker-report-first research discipline for A-share, Hong Kong stock, and US stock workflows.
-- Added data-agent and validation helpers for ZZG company reports.
+- Added data-agent and validation helpers for company reports.
 - Updated keyword routing so common Chinese research prompts map to the correct skill automatically.
 
 ## 0.9.2

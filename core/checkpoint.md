@@ -23,7 +23,7 @@
 
 不要等任务全部完成才写文件。每完成一段就更新 checkpoint。
 
-例：ZZG 11 维公司研究，每完成 §1、§2、§3... 都更新 checkpoint。
+例：company-analysis 11 维公司研究，每完成 §1、§2、§3... 都更新 checkpoint。
 
 ### Rule 2：每次取数后写 checkpoint
 
@@ -44,7 +44,7 @@ LLM 估算到剩余 context < 30k tokens 时，必须立即：
 # Checkpoint · {task-id}
 
 **task_id**: t-001
-**skill**: ZZG
+**skill**: company-analysis
 **target**: 688256_寒武纪
 **started**: 2026-04-07T14:00:00Z
 **last_updated**: 2026-04-07T14:30:00Z
@@ -120,7 +120,7 @@ LLM 会自动：
 用户：继续 t-001
 LLM: 检查 .task-pulse → 找到 t-001
 LLM: 读 .checkpoint/t-001.md → 看到做到 §6
-LLM: 读 ZZG/SKILL.md
+LLM: 读 company-analysis/SKILL.md
 LLM: 加载 §1-§6 的内容（已完成的）
 LLM: 从 §7 继续工作
 LLM: 完成 §7-§9
@@ -172,7 +172,7 @@ LLM 读 .task-pulse（< 100 tokens）
    ↓
 LLM 读 .checkpoint/t-001.md（~5 KB）
    ↓
-LLM 加载 ZZG
+LLM 加载 company-analysis
    ↓
 从 §7 继续
 ```

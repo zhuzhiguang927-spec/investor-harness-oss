@@ -13,7 +13,7 @@ data_sources:
   - （可选）Wind MCP HK 模块
 markets: [HK]
 license: MIT
-author: Joan Song
+author: Investor Harness contributors
 version: 0.1
 ---
 
@@ -31,7 +31,7 @@ version: 0.1
 > - 归档：[`../../../core/output-archive.md`](../../../core/output-archive.md)
 > - 验收：[`../../../core/acceptance.md`](../../../core/acceptance.md)
 >
-> **跳过任何一环视为未完成任务**。
+> **跳过资料核验、结构完整性或合规自检视为未完成任务**。
 
 ## 适用场景
 

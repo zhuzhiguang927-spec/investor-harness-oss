@@ -10,7 +10,7 @@
 
 ## Medium Term
 
-- Provide reusable templates for non-IMA deployments.
+- Provide reusable templates for additional public data-source adapters.
 - Add adapters for multiple data-source stacks.
 - Build a public benchmark suite for hallucination-resistance and evidence labeling.
 - Improve English documentation for international users.

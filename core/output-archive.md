@@ -5,7 +5,7 @@
 
 ---
 
-## 为什么必须归档
+## 什么时候需要归档
 
 1. **可 diff**：三个月后重跑同一个 skill，可以和上次输出做 diff
 2. **可 review**：团队成员可以读到你的研究，PM 可以审计你的工作
@@ -28,7 +28,7 @@
 │   │   ├── 2026-04-07-thesis.md
 │   │   └── 2026-07-15-thesis-update.md
 │   │
-│   ├── deepdive/                     ← ZZG / sm-company-deepdive 输出
+│   ├── deepdive/                     ← company-analysis / sm-company-deepdive 输出
 │   │   ├── 2026-04-07-deepdive.md
 │   │   └── 2026-08-20-deepdive-update.md
 │   │
@@ -117,11 +117,11 @@
 | `sm-master` | `master` |
 | `sm-autopilot` | `autopilot` |
 | `sm-thesis` | `thesis` |
-| `ZZG1` | `industry` |
+| `industry-research` | `industry` |
 | `sm-industry-map` | `industry` |
-| `ZZG` | `deepdive` |
+| `company-analysis` | `deepdive` |
 | `sm-company-deepdive` | `deepdive` |
-| `ZZG2` | `comparison` |
+| `company-comparison` | `comparison` |
 | `sm-earnings-preview` | `earnings` |
 | `sm-model-check` | `modelcheck` |
 | `sm-consensus-watch` | `consensus` |

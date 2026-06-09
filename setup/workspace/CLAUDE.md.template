@@ -79,7 +79,7 @@
 每次新会话开始时读 `.task-pulse`（v0.4 新增，< 100 tokens）。如果其中有 `in_progress` 任务：
 
 主动告知："你有 N 个进行中的任务：
-- t-001 · ZZG · 寒武纪 · 6/11 段
+- t-001 · company-analysis · 寒武纪 · 6/11 段
 - t-002 · sm-earnings-preview · 中芯国际 · 3/7 段
 要继续哪一个？"
 
@@ -113,9 +113,9 @@
   - Step 4 归档输出（按 output-archive.md）
   - Step 5 更新 .task-pulse + active-tasks.md
   - Step 6 跑 acceptance.md 验收清单
-  - Step 7 Dual Output Discipline（v0.5.1 修正，对话贴完整输出 + 同时写文件备份）
+  - Step 7 Conversation Markdown Output（当前会话输出完整 Markdown；文件备份为可选扩展）
 
-**跳过任何一步视为未完成任务**。
+**跳过资料核验、结构完整性或合规自检视为未完成任务**。
 
 ### 1.6 Context Overflow 保护（v0.4 新增）
 
@@ -134,8 +134,8 @@ LLM 在每次输出前估算剩余 context budget：
 
 如果用户问的是投研任务，**必须**通过 Investor Harness 的 skill 来回答，不要用裸 LLM 知识应答。常用 skill：
 
-- 公司层问题 / 公司研究 / 个股分析 → `ZZG`；`sm-company-deepdive` 仅在用户显式点名时使用
-- 公司对比 / 同业横向比较 / A vs B → `ZZG2`
+- 公司层问题 / 公司研究 / 个股分析 → `company-analysis`；`sm-company-deepdive` 仅在用户显式点名时使用
+- 公司对比 / 同业横向比较 / A vs B → `company-comparison`
 - 行业 / 主题问题 → `sm-industry-map` + `sm-thesis`
 - 财报相关 → `sm-earnings-preview` + `sm-consensus-watch`
 - 事件 / 新闻 → `sm-catalyst-monitor`
@@ -217,8 +217,8 @@ LLM 在每次输出前估算剩余 context budget：
 | 我说什么 | 你做什么 |
 |---|---|
 | "看一下 X" | 调 `sm-autopilot` |
-| "分析 X 公司" / "研究 X" / "看下 X" / "深度看 X" | 调 `ZZG` |
-| "A 和 B 对比" / "A vs B" / "谁更好" | 调 `ZZG2` |
+| "分析 X 公司" / "研究 X" / "看下 X" / "深度看 X" | 调 `company-analysis` |
+| "A 和 B 对比" / "A vs B" / "谁更好" | 调 `company-comparison` |
 | "X 财报前瞻" | 调 `sm-earnings-preview` |
 | "X 反过来想" | 调 `sm-red-team` |
 | "整理今天的事" | 调 `sm-briefing` |

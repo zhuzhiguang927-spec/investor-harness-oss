@@ -1,21 +1,21 @@
 # -*- coding: utf-8 -*-
 """
-zzg1_build_table.py - ZZG1 7.1 财务对比表生成器
+industry_build_table.py - industry-research 7.1 财务对比表生成器
 
 输入:
   --input  industry_data.py 输出的 JSON (含 1-14 列数据)
   --business 业务描述 JSON: {code6: "一句话业务描述", ...} (用于第 15 列, 可选)
-输出: 7.1 表 markdown (15 列固定, 对齐 ZZG1/SKILL.md 7.1 表定义)
+输出: 7.1 表 markdown (15 列固定, 对齐 industry-research/SKILL.md 7.1 表定义)
 
 用法:
   # 1. 跑 industry_data.py 拉 1-14 列
-  python industry_data.py --input zzg1_input.txt --out zzg1_data.json
+  python industry_data.py --input industry_input.txt --out industry_data.json
 
   # 2. Agent 联网整理第 15 列业务描述, 存为 ccl_business.json
   #    格式: {"600183": "覆铜板和粘结片 (CCL 高速料) + 印制线路板", ...}
 
   # 3. 跑 build_table 生成 7.1 表
-  python zzg1_build_table.py --input zzg1_data.json --business ccl_business.json --out ccl_7_1.md
+  python industry_build_table.py --input industry_data.json --business ccl_business.json --out ccl_7_1.md
 
 数据列 (15 列固定, 对齐 PCB golden template 7.1 章节):
   1  公司

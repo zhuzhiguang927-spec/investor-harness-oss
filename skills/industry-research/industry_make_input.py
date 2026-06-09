@@ -1,13 +1,13 @@
-﻿#!/usr/bin/env python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-zzg1_make_input.py - ZZG1 行业研究 zzg1_input.txt 自动生成器
+industry_make_input.py - industry-research 行业研究 industry_input.txt 自动生成器
 
 用法：
-  python zzg1_make_input.py --industry "印制电路板" --codes "002384,300476,..." --out zzg1_input.txt
+  python industry_make_input.py --industry "印制电路板" --codes "002384,300476,..." --out industry_input.txt
 
 数据源：Agent 用 cn-web-search / 浏览器搜索「<行业> A 股 头部 上市公司」等关键词后整理的 A 股代码列表
-输出：zzg1_input.txt（每行 code name_zh）
+输出：industry_input.txt（每行 code name_zh）
 
 公司池筛选规则（Agent 在调用本脚本前必须完成）：
   1. 只含 A 股上市（沪深主板/创业板/科创板/北交所），剔除港股/美股/未上市
@@ -23,7 +23,7 @@ def main():
     ap.add_argument('--industry', required=True, help='行业名，如 印制电路板 / 半导体设备 / 光模块')
     ap.add_argument('--keywords', default='', help='行业关键词，逗号分隔，用于在 input 头部注释')
     ap.add_argument('--top', type=int, default=10, help='取前 N 家（默认 10），实际按 --codes 传入的数量截断')
-    ap.add_argument('--out', required=True, help='输出 zzg1_input.txt 路径')
+    ap.add_argument('--out', required=True, help='输出 industry_input.txt 路径')
     ap.add_argument('--codes', help='逗号分隔 A 股代码列表（Agent 联网搜索 + 业务筛选后整理）')
     ap.add_argument('--names', help='逗号分隔公司名（与 codes 对应，拼音或中文均可）')
     args = ap.parse_args()
@@ -51,7 +51,7 @@ def main():
         names = names[:args.top]
 
     with open(args.out, 'w', encoding='utf-8') as f:
-        f.write(f'# ZZG1 行业研究 7.1 input\n')
+        f.write(f'# industry-research 行业研究 7.1 input\n')
         f.write(f'# 行业: {args.industry}\n')
         if args.keywords:
             f.write(f'# 关键词: {args.keywords}\n')

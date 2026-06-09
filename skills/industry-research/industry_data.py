@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-industry_data.py - ZZG1 行业研究 agent
+industry_data.py - industry-research 行业研究 agent
 
-输入: zzg1_input.txt (每行 code name_zh, # 开头的行为注释)
+输入: industry_input.txt (每行 code name_zh, # 开头的行为注释)
 拉取: 7.1 表 1-14 列数据 (财务 + 估值 + 一致预期 + PEG)
-输出: JSON 文件 (给 zzg1_build_table.py 用)
+输出: JSON 文件 (给 industry_build_table.py 用)
 
-数据源 (复用 investor-harness/skills/ZZG/data_agent.py + 腾讯 qt.gtimg.cn 行情):
+数据源 (复用 investor-harness/skills/company-analysis/data_agent.py + 腾讯 qt.gtimg.cn 行情):
   - 25A 财务:           data_agent.fetch_annuals_akshare  (akshare 东方财富年度利润表)
   - 26E-28E 一致预期:   data_agent.fetch_market_akshare   (akshare 同花顺盈利预测)
   - 卖方样本数:         akshare.stock_profit_forecast_ths (直接拉原始 df, len() 出数量)
@@ -16,17 +16,17 @@ industry_data.py - ZZG1 行业研究 agent
 (对齐 PCB golden template 7.1 章节格式: "PCB/FPC+AI PCB, 光模块新增 14.81 亿" 这种一句话描述)
 
 用法:
-  python industry_data.py --input zzg1_input.txt --out zzg1_data.json
+  python industry_data.py --input industry_input.txt --out industry_data.json
 
 依赖:
-  - data_agent.py: ../ZZG/data_agent.py
+  - data_agent.py: ../company-analysis/data_agent.py
   - akshare, pandas, requests (走 urllib 内置)
 """
 import os, sys, json, argparse, time, urllib.request
 import warnings
 warnings.filterwarnings("ignore")
 
-DATA_AGENT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "ZZG"))
+DATA_AGENT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "company-analysis"))
 sys.path.insert(0, DATA_AGENT_DIR)
 
 try:
@@ -268,7 +268,7 @@ def process_one(code6, name_zh, quote_dict):
 # ============================================================
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--input", required=True, help="zzg1_input.txt 路径")
+    ap.add_argument("--input", required=True, help="industry_input.txt 路径")
     ap.add_argument("--out", required=True, help="输出 JSON 路径")
     args = ap.parse_args()
 

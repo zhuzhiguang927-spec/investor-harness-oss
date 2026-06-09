@@ -23,7 +23,7 @@ LLM 在每次收到用户消息后，**第一件事**是扫描消息文本，匹
 
 ## 触发词表
 
-### 估值类 → `ZZG` + `sm-thesis`
+### 估值类 → `company-analysis` + `sm-thesis`
 
 | 中文触发词 | 英文触发词 |
 |---|---|
@@ -44,7 +44,7 @@ LLM 在每次收到用户消息后，**第一件事**是扫描消息文本，匹
 | Rating / 评级 | rating / upgrade / downgrade |
 | 多头逻辑 / 空头逻辑 | bull case / bear case |
 
-### 业务 / 商业模式类 → `ZZG`
+### 业务 / 商业模式类 → `company-analysis`
 
 | 中文 | 英文 |
 |---|---|
@@ -64,7 +64,7 @@ LLM 在每次收到用户消息后，**第一件事**是扫描消息文本，匹
 | Beat / Miss | beat or miss |
 | 预期 / 指引 | guidance / consensus |
 
-### 比较类 → `ZZG2`
+### 比较类 → `company-comparison`
 
 | 中文 | 英文 |
 |---|---|
@@ -73,7 +73,7 @@ LLM 在每次收到用户消息后，**第一件事**是扫描消息文本，匹
 | 相对估值 | relative valuation |
 | 同业对比 / 可比公司分析 / 横向比较 | peer comparison / comparable company analysis |
 
-### 事件驱动选股类 → `ZZG3`
+### 事件驱动选股类 → `event-driven-opportunity`
 
 | 中文 | 英文 |
 |---|---|
@@ -177,7 +177,7 @@ LLM 在每次收到用户消息后，**第一件事**是扫描消息文本，匹
 
 ### 规则 3：同一消息多词命中，取优先级最高
 
-优先级：命中公司对比意图时 `ZZG2` 必跑；其余按 `sm-red-team > sm-thesis > ZZG > 其他` 串联。`sm-company-deepdive` 仅在用户显式点名时使用。
+优先级：命中公司对比意图时 `company-comparison` 必跑；其余按 `sm-red-team > sm-thesis > company-analysis > 其他` 串联。`sm-company-deepdive` 仅在用户显式点名时使用。
 
 如果用户说"NVDA 值不值得买？要考虑反方"—— 同时触发 thesis + red-team，两个都要跑。
 
@@ -205,7 +205,7 @@ LLM 在每次收到用户消息后，**第一件事**是扫描消息文本，匹
 
 ❌ **违规**：用户问"KEYS 和 MU 估值怎么样"，LLM 直接拉 yfinance 数据出一张 fwd P/E 表格 + 多空观点。
 
-✅ **正确**：识别"KEYS 和 MU" + "估值怎么样 / 对比" → 触发 `ZZG2` → 同口径公司对比报告 → postamble 归档并上传 IMA。
+✅ **正确**：识别"KEYS 和 MU" + "估值怎么样 / 对比" → 触发 `company-comparison` → 同口径公司对比报告 → postamble 自检后输出完整 Markdown。
 
 ### 反例 2：闲聊式开场
 

@@ -1,4 +1,4 @@
-﻿# Publishing Notes
+# Publishing Notes
 
 This repository is maintained as a GitHub project for the customized Investor Harness workflow set.
 
@@ -53,8 +53,8 @@ gh repo view <owner>/investor-harness --web
 
 Before making the repository public:
 
-- Review `skills/ZZG*/SKILL.md` for local absolute paths.
-- Review IMA notebook names and folder IDs.
+- Review `skills/company-analysis*/SKILL.md` for local absolute paths.
+- Review private notebook names, private workspace IDs, and data-source credentials.
 - Review golden templates for proprietary research content.
 - Confirm third-party data-source terms allow redistribution.
 - Keep credential files outside the repository.

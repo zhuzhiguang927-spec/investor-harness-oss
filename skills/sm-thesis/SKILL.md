@@ -19,12 +19,12 @@ markets: [CN-A, HK, US, GLOBAL]
 >
 > ⛔ **任何输出完成之前**，必须严格执行 [`../../core/postamble.md`](../../core/postamble.md) 的 6 步结束后流程
 >
-> 输出归档按 [`../../core/output-archive.md`](../../core/output-archive.md) 命名规范
+> 默认在当前会话输出完整 Markdown；如用户需要，可参考 [`../../core/output-archive.md`](../../core/output-archive.md) 做可选归档
 > 输出验收按 [`../../core/acceptance.md`](../../core/acceptance.md) 清单逐条自检
 >
-> **跳过任何一环视为未完成任务。**
+> **跳过资料核验、结构完整性或合规自检视为未完成任务。**
 
-Thesis 特别注意：数据需求最轻，但 preamble Step 2 必须检查是否有同标的的历史公司研究 / 行业研究输出。如果连基本认知都没有，公司侧先走 `ZZG`，行业侧先走 `ZZG1`。
+Thesis 特别注意：数据需求最轻，但 preamble Step 2 必须检查是否有同标的的历史公司研究 / 行业研究输出。如果连基本认知都没有，公司侧先走 `company-analysis`，行业侧先走 `industry-research`。
 
 适用场景：
 

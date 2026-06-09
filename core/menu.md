@@ -86,10 +86,10 @@ LLM 看到以下任一情况，立即显示菜单：
 
 | 编号 | Skill | 说明 |
 |---|---|---|
-| 1 | ZZG | 公司/个股研究默认入口 |
-| 2 | ZZG2 | 公司对比分析 |
-| 3 | ZZG3 | 事件驱动机会分析 |
-| 4 | ZZG1 | 行业图谱 / 行业研究 |
+| 1 | company-analysis | 公司/个股研究默认入口 |
+| 2 | company-comparison | 公司对比分析 |
+| 3 | event-driven-opportunity | 事件驱动机会分析 |
+| 4 | industry-research | 行业图谱 / 行业研究 |
 | 5 | sm-industry-database | 产业 / 公司数据库搭建 |
 | 6 | sm-thesis | 投资命题构建 |
 | 7 | sm-earnings-preview | 财报前瞻 |
@@ -120,10 +120,10 @@ LLM 看到以下任一情况，立即显示菜单：
 
 LLM 自动识别用户意图，匹配最合适的 skill：
 
-- 出现公司名 + "分析 / 研究 / 看看 / 深度 / 起 coverage" → ZZG
-- 出现两个及以上公司名 + "对比 / 比较 / vs / 谁更好 / 相对估值 / 同业对比" → ZZG2
-- 出现事件 / 政策 / 公告 / 产业变化 / 已披露业绩 + "对 X 有啥影响 / 哪些公司利好 / 哪些公司受益 / 哪些票值得看 / 哪些公司值得投资 / 这个业绩怎么看 / 怎么选股" → ZZG3
-- 出现行业名 + "看看 / 怎么看" → ZZG1
+- 出现公司名 + "分析 / 研究 / 看看 / 深度 / 起 coverage" → company-analysis
+- 出现两个及以上公司名 + "对比 / 比较 / vs / 谁更好 / 相对估值 / 同业对比" → company-comparison
+- 出现事件 / 政策 / 公告 / 产业变化 / 已披露业绩 + "对 X 有啥影响 / 哪些公司利好 / 哪些公司受益 / 哪些票值得看 / 哪些公司值得投资 / 这个业绩怎么看 / 怎么选股" → event-driven-opportunity
+- 出现行业名 + "看看 / 怎么看" → industry-research
 - 出现 "数据库 / 产业数据库 / 公司数据库 / 指标库" → sm-industry-database
 - 出现 "财报 / 业绩 / 前瞻" → sm-earnings-preview
 - 出现 "反方 / 唱反调 / 空头 / 找问题" → sm-red-team
@@ -196,7 +196,7 @@ bash ~/.claude/skills/investor-harness/setup/bootstrap.sh ./
 
 要不要我现在帮你跑一次第一个任务？建议从这个开始：
 
-🎯 用 ZZG 起 coverage：{你填的标的}
+🎯 用 company-analysis 起 coverage：{你填的标的}
 
 要继续吗？（输入"继续"或选择菜单的其他选项）
 ```

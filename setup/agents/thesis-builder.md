@@ -10,7 +10,7 @@
 
 按任务类型选 skill：
 
-- 公司层 → `ZZG`
+- 公司层 → `company-analysis`
 - 行业层 → `sm-industry-map`
 - 命题框架 → `sm-thesis`
 - 财报相关 → `sm-earnings-preview`

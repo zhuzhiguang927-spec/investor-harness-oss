@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 '''
-validate_report.py v1 - ZZG 报告质量闸门
+validate_report.py v1 - company-analysis 报告质量闸门
 - 检查 11 维度报告的章节、表格、关键论点数量
 - 与潍柴动力黄金模板 (golden-report-template-weichai-000338.md) 对照
-- 不通过时退出码非零，阻断上传
+- 不通过时退出码非零，阻断低质量报告输出
 
 Usage: python validate_report.py <report_path>
 '''
@@ -102,7 +102,7 @@ def validate(report_path):
 
     print()
     print('=' * 60)
-    print('ZZG 报告质量闸门')
+    print('company-analysis 报告质量闸门')
     print('=' * 60)
     print('  Path:', report_path)
     print('  Size:', length, 'chars /', lines, 'lines')
@@ -205,12 +205,12 @@ def validate(report_path):
     print()
     if all_ok:
         print('=' * 60)
-        print('PASS - 报告通过质量闸门，可以上传 IMA')
+        print('PASS - 报告通过质量闸门，可以输出报告')
         print('=' * 60)
         return True
     else:
         print('=' * 60)
-        print('FAIL - 报告未通过质量闸门，禁止上传，请回 Step 4 重写')
+        print('FAIL - 报告未通过质量闸门，请回到报告生成步骤重写')
         print('=' * 60)
         return False
 

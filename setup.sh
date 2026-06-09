@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # Investor Harness · Interactive Setup Wizard
-# https://github.com/joansongjr/investor-harness
+# https://github.com/zhuzhiguang927-spec/investor-harness-oss
 #
 # Usage:
 #   bash setup.sh                # interactive mode
@@ -477,9 +477,9 @@ render_entry_md_section() {
 | "看看 X" / "X 怎么样" / "帮我看下 X" | 走 \`sm-autopilot\` 自动路由 |
 | "master 模式" / "总控" / "全套跑一遍 X" | 走 \`sm-master\` |
 | "X 投资命题" / "做 X 的 thesis" / "X 投资逻辑" | 走 \`sm-thesis\` |
-| "X 行业框架" / "X 产业链地图" / "X 行业全景" | 走 \`ZZG1\` |
-| "X 深度报告" / "深度看 X" / "起 X 的 coverage" | 走 \`ZZG\` |
-| "A 和 B 对比" / "A vs B" / "谁更好" / "相对估值" / "同业对比" | 走 \`ZZG2\` |
+| "X 行业框架" / "X 产业链地图" / "X 行业全景" | 走 \`industry-research\` |
+| "X 深度报告" / "深度看 X" / "起 X 的 coverage" | 走 \`company-analysis\` |
+| "A 和 B 对比" / "A vs B" / "谁更好" / "相对估值" / "同业对比" | 走 \`company-comparison\` |
 | "X 财报前瞻" / "X earnings preview" / "X 业绩前瞻" | 走 \`sm-earnings-preview\` |
 | "审 X 的模型" / "X 模型 sanity check" / "X 模型审阅" | 走 \`sm-model-check\` |
 | "X 预期差" / "X consensus" / "X 一致预期" | 走 \`sm-consensus-watch\` |
@@ -529,7 +529,7 @@ ${chain}
 
 ## 30 个 skill
 
-sm-master · sm-autopilot · sm-thesis · ZZG1 · sm-company-deepdive · ZZG2 · ZZG3 · sm-earnings-preview · sm-model-check · sm-consensus-watch · sm-industry-database · sm-catalyst-monitor · sm-roadshow-questions · sm-red-team · sm-pm-brief · sm-briefing · sm-tape-review · sm-deck-builder · sm-batch-refresh · sm-batch-earnings · sm-catalyst-sweep · sm-stock-screen · sm-hourly-watch · sm-close-recap · sm-wiki-build · sm-daily-feed · sm-question-list · sm-health-check · sm-qa-archive · sm-people-watch
+sm-master · sm-autopilot · sm-thesis · industry-research · sm-company-deepdive · company-comparison · event-driven-opportunity · sm-earnings-preview · sm-model-check · sm-consensus-watch · sm-industry-database · sm-catalyst-monitor · sm-roadshow-questions · sm-red-team · sm-pm-brief · sm-briefing · sm-tape-review · sm-deck-builder · sm-batch-refresh · sm-batch-earnings · sm-catalyst-sweep · sm-stock-screen · sm-hourly-watch · sm-close-recap · sm-wiki-build · sm-daily-feed · sm-question-list · sm-health-check · sm-qa-archive · sm-people-watch
 
 ## 硬约束
 
@@ -672,8 +672,8 @@ show_completion() {
   fi
   echo
   info "有问题？"
-  info "  Issues:    https://github.com/joansongjr/investor-harness/issues"
-  info "  文档:      https://github.com/joansongjr/investor-harness"
+  info "  Issues:    https://github.com/zhuzhiguang927-spec/investor-harness-oss/issues"
+  info "  文档:      https://github.com/zhuzhiguang927-spec/investor-harness-oss"
   info "  更新:      cd $HARNESS_DIR && bash update.sh"
   echo
 }

@@ -39,10 +39,10 @@ license: MIT
 >
 > ⛔ **任何输出完成之前**，必须严格执行 [`../../core/postamble.md`](../../core/postamble.md) 的 6 步结束后流程
 >
-> 输出归档按 [`../../core/output-archive.md`](../../core/output-archive.md) 命名规范
+> 默认在当前会话输出完整 Markdown；如用户需要，可参考 [`../../core/output-archive.md`](../../core/output-archive.md) 做可选归档
 > 输出验收按 [`../../core/acceptance.md`](../../core/acceptance.md) 清单逐条自检
 >
-> **跳过任何一环视为未完成任务。**
+> **跳过资料核验、结构完整性或合规自检视为未完成任务。**
 
 SM Master 特别注意：作为长形态总控，必须在 [Preflight] 中**显式声明本次走的是 7 种模式中的哪一种**，并按对应模式的结构输出。
 

@@ -1,273 +1,51 @@
 # Data Adapters
 
-本文件只约束 Investor Harness 的定性研究资料来源优先级。各 skill 的定量数据源、Python 脚本和结构化取数口径由对应 skill 自行维护，不在本文件统一改写。
+This file defines public data-source priority for Investor Harness qualitative research. Individual skills may maintain their own helper scripts for structured data, but final claims should follow this source discipline.
 
-所有 sm-* skills 在开始输出前，先按本文件的"数据获取协议"拿数据，再进入各自的分析流程。
+## General Priority
 
-这是**建议模式**的决策树：给出优先级和判断条件，但不强制写死调用参数，允许 LLM 根据当前任务灵活选择。
+1. **Broker / sell-side research reports**: recent five-year report text, PDF, or public reposts.
+2. **Official disclosures**: annual reports, quarterly reports, exchange filings, company announcements, investor relations materials, SEC / HKEX / exchange filings where relevant.
+3. **Structured market and financial data**: prices, valuation, financial statements, shareholder data, events, industry indicators, and comparable-company data from configured local tools or public sources.
+4. **Chinese web search and broader web search**: used to fill gaps, find reposted report text, and verify recent developments.
+5. **User-provided materials**: pasted documents, notes, models, transcripts, or screenshots.
 
----
+Do not rely only on snippets, ratings, target prices, PE tables, or earnings forecast summaries. Read the report body or source disclosure when available.
 
-## 总原则
+## Market Branches
 
-1. **先确认任务的市场归属**（A 股 / 港股 / 美股 / 跨市场），参见 [markets.md](markets.md)
-2. **按优先级探测可用数据源**：IMA MCP 正文可读知识库 → 卖方研报 → 妙想 skill → 通用搜索 → 兜底
-3. **拿到什么数据先内部判断可靠性**（见 [evidence.md](evidence.md)）；常规高可信数据不逐条备注，弱来源、口径冲突或自行估算才在最终报告相邻位置短句说明
-4. **数据不足时不要编造**，先走兜底流程让用户补
+### A Shares
 
----
+- Prefer Eastmoney / dfcfw broker report text or PDF when available.
+- Use official announcements and financial reports as factual anchors.
+- Use configured structured-data tools only when available; otherwise state the gap.
+- Use `cn-web-search` and broader web search for missing report text, recent news, and context.
 
-## 数据源优先级（通用决策树）
+### Hong Kong Stocks
 
-```
-Step 1 — 判断标的市场
-│
-├── A 股 / 公募 → 跳 §A
-├── 港股       → 跳 §H
-├── 美股       → 跳 §U
-└── 跨市场 / 行业主题 → §A + §H + §U 并行
+- Prefer official HKEX disclosures, company IR materials, and public broker reports.
+- Use structured global-stock or market-data tools when available.
+- Flag accounting, currency, and reporting-period differences in cross-market comparisons.
 
-Step 2 — 先搜索 IMA MCP 正文可读固定知识库，再按市场分支获取数据
+### US Stocks
 
-Step 3 — 若全部失败 → 走"兜底协议"
-```
+- Prefer SEC filings, company IR materials, and public broker / industry reports.
+- Use structured global-stock or market-data tools when available.
+- Treat analyst ratings and price targets as market views, not facts.
 
----
+### Global Themes / Industries
 
-## 优先级 0 — IMA MCP 固定知识库搜索（A 股 / 港股 / 美股通用）
+- Combine industry reports, representative company disclosures, public industry data, and web search.
+- Explain market boundaries before selecting companies.
 
-在任何 A 股、港股、美股公司 / 个股研究或行业研究开始时，必须先通过 IMA MCP 搜索下列**正文可稳定读取**的固定知识库。知识库 ID 已固定记录在本文件中，不要每次重新查 ID。
+## Evidence Handling
 
-### 优先检索知识库（正文可稳定读取）
+Use evidence labels where helpful:
 
-| 知识库 | knowledge_base_id |
-|---|---|
-| 「智汇研」券商投行研报精选（持续更新） | `7314697732761447` |
-| 「研万里」A股上市公司调研纪要记录表 | `7318298278502342` |
-| 「研智声」机构电话会议&路演调研纪要精选 | `7317148598805324` |
-| 「研讯龙」机构调研纪要点评精选 | `7312507911810753` |
+- `公开事实`
+- `财报披露`
+- `市场共识`
+- `合理推演`
+- `待核验假设`
 
-### 补充线索知识库（不作为优先检索源）
-
-| 知识库 | knowledge_base_id | 使用限制 |
-|---|---|---|
-| 【爱分享】的财经资讯 | `7357029865780274` | 仅在四个优先库、东方财富研报、妙想 skill 和网页搜索材料不足时作为补充线索源；由于部分 PDF 正文无法通过 IMA MCP 稳定读取，不得把仅能搜索到但正文不可读的条目作为定性结论依据。 |
-
-使用方式：
-- 先对四个“优先检索知识库”调用 IMA MCP `search_knowledge`，并优先使用 `fetch_media_content` 可读取正文的条目。
-- 公司 / 个股任务至少搜索：`{公司名} {股票代码}`、`{公司名} 研报`、`{公司名} 调研纪要`、`{所属行业} {公司名}`。
-- 行业任务至少搜索：`{行业名} 研报`、`{行业名} 调研纪要`、`{行业名} 产业链`、`{行业名} 供需 格局`。
-- 搜索结果中的研报、纪要、电话会、路演、快评和财经资讯均可作为定性研究材料；事实性数据仍需优先用公告、财报、交易所、SEC/IR、公司披露等可追溯材料校验，最终报告不做标签化来源分级。
-- 只有当优先来源不足时，才搜索【爱分享】的财经资讯；若条目正文不可读，只能记录为“检索线索 / 尚未验证材料”，不能据此展开定性判断。
-- 若 IMA MCP 搜索失败、无权限或无结果，在 Preflight/内部记录中记录缺口，然后继续走后续来源链；最终报告只在影响核心结论时用短句说明。
-
----
-
-## §A — A 股 / 公募基金
-
-**优先级 1：东方财富卖方研报定性材料**
-
-检测方式：本地 Python 环境存在 `akshare` / `requests` / `pypdf`，或可用等效脚本。
-
-公司研究、个股研究、财报前瞻、PM brief 等 A 股任务，优先先拿以下资料：
-
-- **卖方研报定性材料**：用东方财富个股研报接口获取近 5 年研究报告清单，并尽量获取可读正文。
-  - 推荐接口：`ak.stock_research_report_em(symbol="{股票代码}")`
-  - 先建立“近 5 年卖方报告目录”，字段仅用于定位材料：机构、标题、日期、PDF 链接
-  - 对每篇报告尝试下载 PDF 并抽取全文；若 PDF 下载失败或返回反爬页，用“公司名 + 报告标题 + 机构”通过 `cn-web-search` 查找公开转载正文
-  - 阅读重点是非结构化定性内容：行业景气、产业链变化、技术路线、产品代际、竞争格局、客户结构、产能/供应链、风险提示、争议点
-  - 不以评级、目标价、盈利预测、PE 作为目标字段；除非用户明确要求，不汇总这些字段
-  - 已读研报全文或公开转载正文的观点可作为市场观点参考；仅有标题而未取得正文的报告，只能列入内部“未取得正文研报”，不能据此展开定性结论
-
-约束：
-- 不使用巨潮作为默认来源。
-- 不使用 AIMI / agent_chat 作为数据源。
-- 研报 PDF / 转载正文获取失败时，必须做内部缺口记录，不能编造正文、图表、行业分析或风险提示；最终报告只在该缺口影响核心判断时简短说明。
-
-**优先级 2：妙想 skill**
-
-检测方式：用户环境中存在妙想相关 skill，或可通过本地可用的妙想工具链获取 A 股/公募投研资料。
-
-公司 / 个股研究、财报前瞻、PM brief、模型检查、覆盖池刷新等 A 股任务，在完成东方财富近 5 年卖方研报正文读取之后，必须用妙想 skill 补齐并交叉验证公告、财报、行情、新闻、行业指标和定性研究材料：
-
-- **股票基础与摘要**
-- **行情、估值与表现**
-- **财报与财务指标**
-- **股东与股本结构**
-- **风险、事件与 ESG**
-- **公告 / 新闻检索**
-- **行业 / 宏观指标**
-- **指数 / 板块和可比公司**
-
-使用约束：
-- 妙想 skill 是综合投研资料来源和交叉验证来源，不能替代东方财富卖方研报正文 / PDF 阅读。
-- 妙想 skill 取到的财务、行情、股东、事件、新闻、行业指标和定性材料，按内部可靠性分层处理；如果口径不清，记录口径缺口，最终报告不输出标签。
-- 若妙想 skill 和东方财富研报正文存在冲突，财务、公告、事件等事实以公告、财报和可追溯披露材料为事实锚；内部核验差异和口径，最终报告只写对结论有影响的差异。
-
-**优先级 3：cn-web-search skill**
-
-检测方式：用户环境中存在 `cn-web-search` skill 或等效工具
-
-典型查询：
-- `{公司名} 年报 2024`
-- `{公司名} 产业链地位`
-- `{公司名} 一致预期`
-- `{行业} 景气度 2025`
-
-**优先级 4：WebSearch（通用兜底）**
-
-所有主流 harness 都支持。典型查询：
-- `{公司名} 最新公告 东方财富`
-- `{公司名} 研报 全文 {券商名} {报告标题}`
-- `{公司名} 财报 PDF 东方财富`
-
-**优先级 5：让用户贴材料**（走"兜底协议"）
-
----
-
-## §H — 港股
-
-港股公司 / 个股研究使用与 A 股一致的信息源链：
-
-**优先级 1：东方财富卖方研报定性材料**
-
-检测方式：本地 Python 环境存在 `akshare` / `requests` / `pypdf`，或可用等效脚本；若东方财富无法覆盖该港股标的，则通过 `cn-web-search` 查找东方财富 / dfcfw 转载或收录的近 5 年卖方研报正文、PDF 原文、转载正文。
-
-- 先建立“近 5 年卖方报告目录”，字段仅用于定位材料：机构、标题、日期、PDF 链接或转载正文链接
-- 阅读重点是非结构化定性内容：行业景气、商业模式、竞争格局、客户结构、产品周期、资本开支、风险提示、争议点
-- 不以评级、目标价、盈利预测、PE 作为目标字段；除非用户明确要求，不汇总这些字段
-- 已读研报全文或公开转载正文的观点可作为市场观点参考；仅有标题而未取得正文的报告，只能列入内部“未取得正文研报”，不能据此展开定性结论
-
-**优先级 2：妙想 skill**
-
-检测方式：用户环境中存在妙想相关 skill，或可通过本地可用的妙想工具链获取港股投研资料。
-
-在完成东方财富近 5 年卖方研报正文读取之后，必须用妙想 skill 港股能力补齐并交叉验证公告、财报、行情、新闻、行业指标和定性研究材料：
-
-- **港股基础资料**
-- **港股行情、估值与表现**
-- **港股财报与财务指标**
-- **港股公告事件**
-- **新闻 / 公告语义检索**（如适用）
-- **行业 / 宏观指标**（如适用）
-
-使用约束：
-- 妙想 skill 是港股综合投研资料来源和交叉验证来源，不能替代东方财富卖方研报正文 / PDF 阅读。
-- 妙想 skill 取到的财务、行情、事件、新闻、行业指标和定性材料，按内部可靠性分层处理；如果口径不清，记录口径缺口，最终报告不输出标签。
-- 若妙想 skill 和东方财富研报正文存在冲突，财务、公告、事件等事实以公告、财报和可追溯披露材料为事实锚；内部核验差异和口径，最终报告只写对结论有影响的差异。
-
-**优先级 3：cn-web-search skill**
-- `{公司名} 研报 全文 {券商名} {报告标题}`
-- `{公司名} 东方财富 研报`
-- `{公司名} 港股 年报`
-- `{公司名} 业绩`
-
-**优先级 4：WebSearch**
-- `{stock name} annual report hkex`
-- `{股票代码} 港股 公告`
-- `{公司名} 研报 全文`
-
-**优先级 5：用户贴材料 / 兜底协议**
-
----
-
-## §U — 美股
-
-**优先级 1：东方财富卖方研报定性材料**
-
-检测方式：本地 Python 环境存在 `akshare` / `requests` / `pypdf`，或可用等效脚本；若东方财富无法覆盖该美股标的，则通过 `cn-web-search` 查找东方财富 / dfcfw 转载或收录的近 5 年卖方研报正文、PDF 原文、转载正文。
-
-- 先建立“近 5 年卖方报告目录”，字段仅用于定位材料：机构、标题、日期、PDF 链接或转载正文链接
-- 阅读重点是非结构化定性内容：行业景气、商业模式、竞争格局、客户结构、产品周期、资本开支、风险提示、争议点
-- 不以评级、目标价、盈利预测、PE 作为目标字段；除非用户明确要求，不汇总这些字段
-- 已读研报全文或公开转载正文的观点可作为市场观点参考；仅有标题而未取得正文的报告，只能列入内部“未取得正文研报”，不能据此展开定性结论
-
-**优先级 2：妙想 skill**
-
-检测方式：用户环境中存在妙想相关 skill，或可通过本地可用的妙想工具链获取美股投研资料。
-
-在完成东方财富近 5 年卖方研报正文读取之后，必须用妙想 skill 美股能力补齐并交叉验证公告、财报、行情、新闻、行业指标和定性研究材料：
-
-- **美股基础资料**
-- **美股行情、估值与表现**
-- **美股财报与财务指标**
-- **美股公告事件**
-- **新闻 / 公告语义检索**（如适用）
-- **行业 / 宏观指标**（如适用）
-
-使用约束：
-- 妙想 skill 是美股综合投研资料来源和交叉验证来源，不能替代东方财富卖方研报正文 / PDF 阅读。
-- 妙想 skill 取到的财务、行情、事件、新闻、行业指标和定性材料，按内部可靠性分层处理；如果口径不清，记录口径缺口，最终报告不输出标签。
-- 若妙想 skill、SEC/公司 IR 和东方财富研报正文存在冲突，财务、公告、事件等事实以 SEC/公司 IR、公告、财报和可追溯披露材料为事实锚；内部核验差异和口径，最终报告只写对结论有影响的差异。
-
-**优先级 3：WebSearch + SEC EDGAR**
-- `{ticker} 10-K site:sec.gov`
-- `{ticker} 10-Q site:sec.gov`
-- `{company name} earnings transcript`
-
-**优先级 4：WebFetch SEC EDGAR 直取**
-- `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK={ticker}`
-
-**优先级 5：其他公开财经源**（WSJ、Reuters、Bloomberg 摘要、公司 IR 页）
-
-**优先级 6：用户贴材料 / 兜底协议**
-
----
-
-## 跨市场 / 行业主题
-
-例如 "全球动力电池供给" 这类题目：
-
-1. 先用 `sm-industry-map` skill 的框架搭产业链
-2. 按"核心玩家清单"拆解到各自市场（§A/§H/§U）
-3. 并行拉数据，最后在同一个内部事实表里汇总
-
----
-
-## 兜底协议（所有市场通用）
-
-当上述优先级全部不可用时：
-
-1. **停下来**，不要开始分析
-2. 按下面模板回复用户：
-
-```
-我当前无法直接获取 {公司/行业/主题} 的数据。要继续，需要你提供：
-
-必需（至少选一项）：
-- 最新年报 / 季报（PDF 或关键财务指标文本）
-- 近一个季度的公司公告或新闻
-- 你对标的的现有观点、材料、或研究笔记
-
-可选（提高分析质量）：
-- 可比公司清单
-- 你关心的关键变量
-- 时间窗口（近期事件 vs. 长期逻辑）
-
-贴完后我会按 sm-{current-skill} 的标准流程输出。
-```
-
-3. 拿到材料后才开始正式流程，并在内部缺口记录中列出仍缺的项；最终报告只保留影响结论的缺口。
-
----
-
-## 对 LLM 的行为要求
-
-- **不要**猜数据。缺数据就走兜底或降级到下一优先级
-- **不要**混合真假数据。比如用一个工具拿到的数据和自己推演的数字放在一起而不标注
-- **要**只在必要时用一句话说明核心数据口径，不要在输出开头堆数据来源清单
-- **要**默认不逐条列常规高可信来源；但低可信来源、二手转载、口径冲突、无法交叉验证和自行估算/测算的数据，必须在对应位置写清来源、口径或“估算/测算”
-- **要**内部区分事实、观点、测算和假设；弱来源、口径冲突或自行估算才在正文相邻位置短句备注
-- **要**内部记录关键缺口；仅在影响结论时短句写入报告
-
----
-
-## 新增数据源时怎么办
-
-如果未来接入新的 MCP 或工具（例如 Wind MCP、Bloomberg API），只需要：
-
-1. 在本文件对应 §A/§H/§U 段落里插入新的优先级条目
-2. 不需要修改任何 skill 文件
-3. 发布 patch 版本
-
-这就是 adapter 层抽离的核心价值——**数据源变化不影响方法论**。
+Only mention source weakness in the final report when it affects the conclusion.

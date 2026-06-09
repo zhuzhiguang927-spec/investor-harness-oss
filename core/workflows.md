@@ -13,9 +13,9 @@
    用于自动判断应该走哪条研究链路。
 2. `sm-thesis`
    用于定义问题和值不值得研究。
-3. `ZZG1`
+3. `industry-research`
    用于搭行业框架和产业链地图。
-4. `ZZG`
+4. `company-analysis`
    用于下沉到公司层面。
 5. `sm-earnings-preview`
    用于财报前瞻和财报后验证。
@@ -36,8 +36,8 @@
 
 - `sm-autopilot`：总控调度入口
 - `sm-thesis`：基金经理 / 投资主理人
-- `ZZG1`：行业研究员
-- `ZZG`：公司研究员
+- `industry-research`：行业研究员
+- `company-analysis`：公司研究员
 - `sm-earnings-preview`：财报季前瞻助理
 - `sm-model-check`：模型审阅助理
 - `sm-consensus-watch`：预期管理助理

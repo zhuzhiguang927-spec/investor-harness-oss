@@ -33,8 +33,8 @@
 | 我说什么 | 你做什么 |
 |---|---|
 | "看一下 X" / "X 怎么样" | 走 `sm-autopilot` 自动路由 |
-| "分析 X 公司" / "研究 X" / "看下 X" / "深度看 X" / "起 coverage" | 走 `ZZG` |
-| "A 和 B 对比" / "A vs B" / "谁更好" / "相对估值" | 走 `ZZG2` |
+| "分析 X 公司" / "研究 X" / "看下 X" / "深度看 X" / "起 coverage" | 走 `company-analysis` |
+| "A 和 B 对比" / "A vs B" / "谁更好" / "相对估值" | 走 `company-comparison` |
 | "X 财报前瞻" | 走 `sm-earnings-preview` |
 | "反过来想 X" / "X 空头逻辑" | 走 `sm-red-team` |
 | "X 预期差" | 走 `sm-consensus-watch` |
@@ -69,12 +69,11 @@
 1. 后台事实可靠性自检
 2. 内部记录资料缺口；最终报告只写影响核心结论的缺口
 3. 合规声明
-4. 归档输出到 `{{COVERAGE_ROOT}}/{ticker}/{skill}/YYYY-MM-DD-{skill}.md`
-5. 更新 .task-pulse + active-tasks.md
-6. 验收清单
-7. **Dual Output Discipline** — 对话**贴完整输出** + 同时写文件；末尾追加 `📁 已归档:{path}` + 关键统计 + 下一步建议
+4. 更新 .task-pulse + active-tasks.md（如存在）
+5. 验收清单
+6. **Conversation Markdown Output** — 在当前会话输出完整 Markdown；末尾追加关键统计 + 下一步建议
 
-⛔ **不要只回摘要**——云端用户打不开本地文件。默认必须对话 + 文件双输出。
+⛔ **不要只回摘要**。公开版默认必须在当前会话输出完整 Markdown。
 
 ## 数据源优先级
 
@@ -86,7 +85,7 @@
 
 ## 20 个基础 skill
 
-`sm-master` · `sm-autopilot` · `sm-thesis` · `sm-industry-map` · `ZZG` · `sm-company-deepdive`（仅显式调用） · `ZZG2` · `sm-earnings-preview` · `sm-model-check` · `sm-consensus-watch` · `sm-industry-database` · `sm-catalyst-monitor` · `sm-roadshow-questions` · `sm-red-team` · `sm-pm-brief` · `sm-briefing` · `sm-tape-review` · `sm-deck-builder` · `sm-batch-refresh` · `sm-batch-earnings` · `sm-catalyst-sweep`
+`sm-master` · `sm-autopilot` · `sm-thesis` · `sm-industry-map` · `company-analysis` · `sm-company-deepdive`（仅显式调用） · `company-comparison` · `sm-earnings-preview` · `sm-model-check` · `sm-consensus-watch` · `sm-industry-database` · `sm-catalyst-monitor` · `sm-roadshow-questions` · `sm-red-team` · `sm-pm-brief` · `sm-briefing` · `sm-tape-review` · `sm-deck-builder` · `sm-batch-refresh` · `sm-batch-earnings` · `sm-catalyst-sweep`
 
 ## 硬约束（违反等于未完成任务）
 
@@ -95,7 +94,7 @@
 - ❌ 不要写套话风险
 - ❌ 不要给目标价/评级（必须标注"需人工复核"）
 - ❌ 不要承诺收益
-- ❌ 不要只贴文件路径不贴内容
+- ❌ 不要只给摘要或文件路径
 - ❌ 不要跳过 Preflight
 - ❌ 不要把后台来源/口径备注、来源链或资料缺口清单写进正文
 
@@ -133,13 +132,13 @@
 
 ```markdown
 **A 股 / 公募**:
-  1. IMA MCP 四个正文可读固定知识库（智汇研/研万里/研智声/研讯龙，ID 见 core/adapters.md；爱分享仅作补充线索）
+  1. 近 5 年卖方研报正文 / PDF / 公开转载正文
   2. 妙想 skill A 股/公募（公告、财报、行情、财务、股东、事件、新闻、行业指标、定性研究材料）
   3. WebSearch（兜底）
   4. 用户手动贴材料
 
 **港股**:
-  1. IMA MCP 四个正文可读固定知识库（智汇研/研万里/研智声/研讯龙，ID 见 core/adapters.md；爱分享仅作补充线索）
+  1. 近 5 年卖方研报正文 / PDF / 公开转载正文
   2. 东方财富近 5 年卖方研报正文/PDF/转载正文
   3. 妙想 skill 港股（公告、财报、行情、财务、事件、新闻、行业指标、定性研究材料）
   4. cn-web-search skill
@@ -147,7 +146,7 @@
   6. 用户贴材料
 
 **美股**:
-  1. IMA MCP 四个正文可读固定知识库（智汇研/研万里/研智声/研讯龙，ID 见 core/adapters.md；爱分享仅作补充线索）
+  1. 近 5 年卖方研报正文 / PDF / 公开转载正文
   2. 东方财富近 5 年卖方研报正文/PDF/转载正文
   3. 妙想 skill 美股（公告、财报、行情、财务、事件、新闻、行业指标、定性研究材料）
   4. WebSearch site:sec.gov
@@ -159,7 +158,7 @@
 
 ```markdown
 **A 股 / 公募**:
-  1. IMA MCP 四个正文可读固定知识库（智汇研/研万里/研智声/研讯龙，ID 见 core/adapters.md；爱分享仅作补充线索）
+  1. 近 5 年卖方研报正文 / PDF / 公开转载正文
   2. 妙想 skill（优先 A 股基础数据）
   3. Alpha派 MCP (补充 / 互验)
   4. Wind MCP (高质量财务数据)
@@ -167,7 +166,7 @@
   6. WebSearch（兜底）
 
 **港股 / 美股 / 其他**:
-  1. IMA MCP 四个正文可读固定知识库（智汇研/研万里/研智声/研讯龙，ID 见 core/adapters.md；爱分享仅作补充线索）
+  1. 近 5 年卖方研报正文 / PDF / 公开转载正文
   2. 东方财富近 5 年卖方研报正文/PDF/转载正文（港股 / 美股）
   3. 妙想 skill 港股 / 美股
   4. Wind MCP (全球覆盖，如已配置)

@@ -18,7 +18,7 @@
 
 LLM 看到以下关键词时按对应方式处理：
 
-- **公司名 / ticker** → 先查 `coverage.md` 是否在覆盖池；正式公司研究 / 个股分析默认走 `ZZG`，命题拆解才走 `sm-thesis`
+- **公司名 / ticker** → 先查 `coverage.md` 是否在覆盖池；正式公司研究 / 个股分析默认走 `company-analysis`，命题拆解才走 `sm-thesis`
 - **行业 / 主题词** → 走 `sm-industry-map` + `sm-thesis`
 - **财报 / 业绩** → 走 `sm-earnings-preview`
 - **政策 / 发布会 / 价格** → 走 `sm-catalyst-monitor`

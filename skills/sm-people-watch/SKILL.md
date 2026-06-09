@@ -27,7 +27,7 @@ trigger: 用户明示"关键人物追踪 / 跟踪 X 博主 / 跟踪 Reddit / 跟
 >
 > ⛔ **任何输出完成之前**，必须严格执行 [`../../core/postamble.md`](../../core/postamble.md) 的 8 步结束后流程
 >
-> 输出归档按 [`../../core/output-archive.md`](../../core/output-archive.md) 命名规范
+> 默认在当前会话输出完整 Markdown；如用户需要，可参考 [`../../core/output-archive.md`](../../core/output-archive.md) 做可选归档
 > 输出验收按 [`../../core/acceptance.md`](../../core/acceptance.md) 清单逐条自检
 
 People Watch 特别注意：

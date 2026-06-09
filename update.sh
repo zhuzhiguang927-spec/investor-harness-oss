@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # Investor Harness · Update Wizard
-# https://github.com/joansongjr/investor-harness
+# https://github.com/zhuzhiguang927-spec/investor-harness-oss
 #
 # Usage:
 #   bash update.sh
@@ -123,9 +123,9 @@ render_legacy_entry_section() {
 | "看看 X" / "X 怎么样" / "帮我看下 X" | 走 \`sm-autopilot\` 自动路由 |
 | "master 模式" / "总控" / "全套跑一遍 X" | 走 \`sm-master\` |
 | "X 投资命题" / "做 X 的 thesis" / "X 投资逻辑" | 走 \`sm-thesis\` |
-| "X 行业框架" / "X 产业链地图" / "X 行业全景" | 走 \`ZZG1\` |
-| "X 深度报告" / "深度看 X" / "起 X 的 coverage" | 走 \`ZZG\` |
-| "A 和 B 对比" / "A vs B" / "谁更好" / "相对估值" / "同业对比" | 走 \`ZZG2\` |
+| "X 行业框架" / "X 产业链地图" / "X 行业全景" | 走 \`industry-research\` |
+| "X 深度报告" / "深度看 X" / "起 X 的 coverage" | 走 \`company-analysis\` |
+| "A 和 B 对比" / "A vs B" / "谁更好" / "相对估值" / "同业对比" | 走 \`company-comparison\` |
 | "X 财报前瞻" / "X earnings preview" / "X 业绩前瞻" | 走 \`sm-earnings-preview\` |
 | "审 X 的模型" / "X 模型 sanity check" / "X 模型审阅" | 走 \`sm-model-check\` |
 | "X 预期差" / "X consensus" / "X 一致预期" | 走 \`sm-consensus-watch\` |
@@ -175,7 +175,7 @@ ${chain}
 
 ## 30 个 skill
 
-sm-master · sm-autopilot · sm-thesis · ZZG1 · sm-company-deepdive · ZZG2 · ZZG3 · sm-earnings-preview · sm-model-check · sm-consensus-watch · sm-industry-database · sm-catalyst-monitor · sm-roadshow-questions · sm-red-team · sm-pm-brief · sm-briefing · sm-tape-review · sm-deck-builder · sm-batch-refresh · sm-batch-earnings · sm-catalyst-sweep · sm-stock-screen · sm-hourly-watch · sm-close-recap · sm-wiki-build · sm-daily-feed · sm-question-list · sm-health-check · sm-qa-archive · sm-people-watch
+sm-master · sm-autopilot · sm-thesis · industry-research · sm-company-deepdive · company-comparison · event-driven-opportunity · sm-earnings-preview · sm-model-check · sm-consensus-watch · sm-industry-database · sm-catalyst-monitor · sm-roadshow-questions · sm-red-team · sm-pm-brief · sm-briefing · sm-tape-review · sm-deck-builder · sm-batch-refresh · sm-batch-earnings · sm-catalyst-sweep · sm-stock-screen · sm-hourly-watch · sm-close-recap · sm-wiki-build · sm-daily-feed · sm-question-list · sm-health-check · sm-qa-archive · sm-people-watch
 
 ## 硬约束
 
@@ -249,7 +249,7 @@ check_git_repo() {
     err "$HARNESS_DIR 不是 git 仓库"
     info "如果你用 --copy 方式安装或手动解压安装，需要："
     info "  1. rm -rf $HARNESS_DIR"
-    info "  2. git clone https://github.com/joansongjr/investor-harness.git $HARNESS_DIR"
+    info "  2. git clone https://github.com/zhuzhiguang927-spec/investor-harness-oss.git $HARNESS_DIR"
     info "  3. bash setup.sh"
     exit 1
   fi
@@ -359,7 +359,7 @@ detect_breaking_changes() {
     echo
     warn "检测到破坏性变更"
     if ! prompt_yn "继续更新？（建议先查看 changelog）" "n"; then
-      info "已取消。查看 changelog: https://github.com/joansongjr/investor-harness/releases"
+      info "已取消。查看 changelog: https://github.com/zhuzhiguang927-spec/investor-harness-oss/releases"
       exit 0
     fi
   else
@@ -513,7 +513,7 @@ show_completion() {
   info "下一步："
   info "  1. 重启你的 AI 工具（Claude Code / Codex / OpenClaw）"
   info "  2. 如果入口 MD 还有旧内容，重跑一次 onboarding 或 bash setup.sh"
-  info "  3. 查看完整 changelog：https://github.com/joansongjr/investor-harness/releases/tag/v${LOCAL_VERSION}"
+  info "  3. 查看完整 changelog：https://github.com/zhuzhiguang927-spec/investor-harness-oss/releases/tag/v${LOCAL_VERSION}"
   echo
 }
 

@@ -4,10 +4,10 @@
 name: investor-harness
 display_name: Investor Harness
 version: 0.9.2
-description: 投研人的 AI 任务执行规范。公司/个股研究默认入口统一为 ZZG，行业研究为 ZZG1，公司对比为 ZZG2，事件驱动机会分析为 ZZG3；这些 skill 共享 Investor Harness 资料来源和归档规则。本地新增 ZZG3 事件驱动投资机会分析入口，覆盖从事件/变化材料筛选投资候选公司的场景。本地新增 ZZG2 公司对比分析入口。v0.9.2 新增 sm-industry-database（产业 / 公司数据库搭建），要求关键数据来源和口径备查，弱来源/口径冲突/自行估算才在正文短句备注。v0.9.1 新增 ONBOARDING 流程——首次启动 agent 时自动展示功能 + 关键词路由表，用户输入"同意"后 agent 自动检测 harness 类型（Claude Code / Codex / OpenCode / OpenClaw）+ 在对应入口 MD（CLAUDE.md / AGENTS.md）追加带 BEGIN/END marker 的路由块。v0.9 Librarian 升级（6 个 opt-in skill）。v0.8 sm-deck-builder。v0.7 L1/L2/L3 用户自定义。
+description: 投研人的 AI 任务执行规范。公司/个股研究默认入口统一为 company-analysis，行业研究为 industry-research，公司对比为 company-comparison，事件驱动机会分析为 event-driven-opportunity；这些 skill 共享 Investor Harness 资料来源、证据纪律和 Markdown 输出结构。v0.9.2 新增 sm-industry-database（产业 / 公司数据库搭建），要求关键数据来源和口径备查，弱来源/口径冲突/自行估算才在正文短句备注。v0.9.1 新增 ONBOARDING 流程——首次启动 agent 时自动展示功能 + 关键词路由表，用户输入"同意"后 agent 自动检测 harness 类型（Claude Code / Codex / OpenCode / OpenClaw）+ 在对应入口 MD（CLAUDE.md / AGENTS.md）追加带 BEGIN/END marker 的路由块。v0.9 Librarian 升级（6 个 opt-in skill）。v0.8 sm-deck-builder。v0.7 L1/L2/L3 用户自定义。
 license: MIT
-author: Joan Song
-homepage: https://github.com/joansongjr/investor-harness
+author: Investor Harness contributors
+homepage: https://github.com/zhuzhiguang927-spec/investor-harness-oss
 
 compatible_harnesses:
   - claude-code
@@ -20,27 +20,14 @@ compatible_harnesses:
 solves:
   - hallucination: 强制取数协议 + 来源/口径备查 + 关键缺口短句备注
   - task_forgetting: 持久化记忆系统 + .task-pulse + .checkpoint 断点续跑
-  - lack_of_structure: 31 个标准化 skill + 输出归档协议 + 验收清单
+  - lack_of_structure: 31 个标准化 skill + Markdown 输出结构 + 验收清单
   - context_overflow: 三层加载（Tier 0/1/2）+ 输出文件化 + Echo 简化 + 断点续跑
 
 # 数据源：全部可选。skill 会按 adapters.md 的优先级逐级降级
 data_sources:
   optional:
-    - name: ima-mcp-knowledge-bases
-      description: IMA MCP 固定知识库；四个正文可稳定读取的知识库作为 A 股、港股、美股公司/行业研究的首要资料来源，爱分享仅作为补充线索源；具体知识库 ID 见 core/adapters.md
-      primary_knowledge_bases:
-        - name: 「智汇研」券商投行研报精选（持续更新）
-          id: "7314697732761447"
-        - name: 「研万里」A股上市公司调研纪要记录表
-          id: "7318298278502342"
-        - name: 「研智声」机构电话会议&路演调研纪要精选
-          id: "7317148598805324"
-        - name: 「研讯龙」机构调研纪要点评精选
-          id: "7312507911810753"
-      supplemental_knowledge_bases:
-        - name: 【爱分享】的财经资讯
-          id: "7357029865780274"
-          limitation: 部分 PDF 正文无法通过 IMA MCP 稳定读取，仅作补充检索线索，不作为优先检索源。
+    - name: broker-report-sources
+      description: Public broker / sell-side research report text or PDF sources.
     - name: miaoxiang-skill
       description: 妙想 skill，覆盖 A 股、港股、美股、公募、宏观、资讯等综合投研资料
       skills:
@@ -80,25 +67,25 @@ skills:
   - id: sm-industry-map
     path: skills/sm-industry-map
     tier: framing
-  - id: ZZG1
-    path: skills/ZZG1
+  - id: industry-research
+    path: skills/industry-research
     tier: framing
-    description: 行业研究默认入口，覆盖行业/赛道/产业链/主题研究并上传 IMA Industry Analysis。
-  - id: ZZG
-    path: skills/ZZG
+    description: 行业研究默认入口，覆盖行业/赛道/产业链/主题研究，输出完整 Markdown 行业报告。
+  - id: company-analysis
+    path: skills/company-analysis
     tier: research
-    description: 公司/个股研究默认入口。命中“分析/研究/看下/深度看/起 coverage 某家公司或个股”时使用，输出完整公司研究报告并上传 IMA Company Analysis。
+    description: 公司/个股研究默认入口。命中“分析/研究/看下/深度看/起 coverage 某家公司或个股”时使用，输出完整 Markdown 公司研究报告。
   - id: sm-company-deepdive
     path: skills/sm-company-deepdive
     tier: research
-  - id: ZZG2
-    path: skills/ZZG2
+  - id: company-comparison
+    path: skills/company-comparison
     tier: research
-    description: 公司对比分析默认入口。命中“对比/比较/vs/谁更好/相对估值/同业对比/可比公司分析”时使用，输出完整横向比较报告并上传 IMA Comparison Analysis。
-  - id: ZZG3
-    path: skills/ZZG3
+    description: 公司对比分析默认入口。命中“对比/比较/vs/谁更好/相对估值/同业对比/可比公司分析”时使用，输出完整 Markdown 横向比较报告。
+  - id: event-driven-opportunity
+    path: skills/event-driven-opportunity
     tier: research
-    description: 事件驱动投资机会分析默认入口。命中“这件事对某家公司有啥影响/这件事对哪些公司利好/这个业绩怎么看/事件驱动分析/事件驱动选股/这段变化哪些公司受益/哪些公司值得投资/哪些票值得看”时使用，输出公司影响判断与候选公司分层，并上传 IMA Event Driven Analysis。
+    description: 事件驱动投资机会分析默认入口。命中“这件事对某家公司有啥影响/这件事对哪些公司利好/这个业绩怎么看/事件驱动分析/事件驱动选股/这段变化哪些公司受益/哪些公司值得投资/哪些票值得看”时使用，输出完整 Markdown 公司影响判断与候选公司分层。
   - id: sm-earnings-preview
     path: skills/sm-earnings-preview
     tier: research
@@ -139,7 +126,7 @@ skills:
     description: 投研 PPT 生成 · UI 设计 + 研报包装（10 段 IC pitch / 6 段 roadshow / 8 段 earnings review / 5 段 monthly / 15 段 client pitch）— v0.8 新增
     depends_on:
       - sm-thesis            # 命题来源
-      - ZZG                  # 公司内容
+      - company-analysis                  # 公司内容
       - sm-red-team          # Risk 页
       - anthropic-skills:pptx  # 底层 PPT 生成引擎
   # v0.3 新增 batch skills
@@ -194,9 +181,9 @@ core:
   - path: core/preamble.md
     purpose: 强制开始前流程（识别市场→检查历史→检查任务→Preflight→实际取数）— v0.3 新增
   - path: core/postamble.md
-    purpose: 强制结束后流程（证据自检→仍需补→合规声明→归档→更新任务→验收）— v0.3 新增
+    purpose: 强制结束后流程（证据自检→仍需补→合规声明→更新任务→验收）— v0.3 新增
   - path: core/output-archive.md
-    purpose: 输出归档命名规范 — v0.3 新增
+    purpose: 可选输出归档命名规范 — v0.3 新增
   - path: core/acceptance.md
     purpose: 输出验收清单（通用 + 各 skill 专属）— v0.3 新增
   - path: core/menu.md
@@ -237,8 +224,8 @@ onboarding:
   related:
     - setup/keyword-routes.md       # 31 个 skill 关键词路由表（single source of truth）
     - skills/sm-industry-database/SKILL.md
-    - skills/ZZG/SKILL.md
-    - skills/ZZG3/SKILL.md
+    - skills/company-analysis/SKILL.md
+    - skills/event-driven-opportunity/SKILL.md
     - setup/routes-block.template.md # 要插入用户入口 MD 的标准块（带 BEGIN/END marker）
 
 workspace_templates:
@@ -261,12 +248,12 @@ workspace_templates:
 
 recommended_workflows:
   company_research:
-    - ZZG
+    - company-analysis
     - sm-consensus-watch
     - sm-red-team
     - sm-pm-brief
   company_comparison:
-    - ZZG2
+    - company-comparison
   industry_research:
     - sm-thesis
     - sm-industry-map
@@ -305,12 +292,12 @@ recommended_workflows:
   # v0.8 新增 deck 生成工作流
   ic_pitch_full:
     - sm-thesis
-    - ZZG
+    - company-analysis
     - sm-consensus-watch
     - sm-red-team
     - sm-deck-builder         # 最后一步：转成 PPT
   roadshow_prep:
-    - ZZG
+    - company-analysis
     - sm-roadshow-questions
     - sm-deck-builder
   earnings_review_deck:

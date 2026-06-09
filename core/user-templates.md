@@ -225,7 +225,7 @@ Investor Harness 自带 3 个**示例模板**在 `setup/workspace/user-templates
 - ❌ 不能绕过后台事实可靠性自检
 - ❌ 不能把未核验线索写成结论
 - ❌ 不能绕过合规声明
-- ❌ 不能跳过 Dual Output Discipline（对话 + 文件双输出）
+- ❌ 不能跳过 Conversation Markdown Output（会话内完整 Markdown 输出）
 
 **用户模板只能自定义**：
 - ✅ 输出段的具体结构（几段、叫什么名字、重点是什么）

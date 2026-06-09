@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 #
 # Investor Harness · One-liner install (curl entry)
-# https://github.com/joansongjr/investor-harness
+# https://github.com/zhuzhiguang927-spec/investor-harness-oss
 #
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/joansongjr/investor-harness/main/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/zhuzhiguang927-spec/investor-harness-oss/main/install.sh | bash
 #
 # Or with custom install location:
-#   curl -fsSL https://raw.githubusercontent.com/joansongjr/investor-harness/main/install.sh | bash -s -- --dir ~/my-harness
+#   curl -fsSL https://raw.githubusercontent.com/zhuzhiguang927-spec/investor-harness-oss/main/install.sh | bash -s -- --dir ~/my-harness
 #
 # What it does:
 #   1. Clones investor-harness to ~/investor-harness (or --dir path)
@@ -15,7 +15,7 @@
 
 set -euo pipefail
 
-REPO_URL="https://github.com/joansongjr/investor-harness.git"
+REPO_URL="https://github.com/zhuzhiguang927-spec/investor-harness-oss.git"
 DEFAULT_DIR="$HOME/investor-harness"
 
 RED=$'\033[0;31m'

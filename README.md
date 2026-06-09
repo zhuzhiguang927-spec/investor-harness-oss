@@ -2,11 +2,9 @@
 
 > 投研场景下的 AI 任务执行规范与 skill 路由系统。
 
-Investor Harness 是一套面向二级市场研究工作的 agent harness。它把“怎么看公司、怎么看行业、怎么做对比、怎么从事件里找候选公司”沉淀成可执行的 Markdown skill、关键词路由、归档规则、质量闸门和数据源优先级，让 AI 不只是回答问题，而是按投研流程完成任务。
+Investor Harness 是一套面向二级市场研究工作的 agent harness。它把“怎么看公司、怎么看行业、怎么做对比、怎么从事件里找候选公司”沉淀成可执行的 Markdown skill、关键词路由、质量闸门和数据源优先级，让 AI 不只是回答问题，而是按投研流程完成任务。
 
-本仓库是基于原始 `investor-harness` 的增强版，重点加入了 `ZZG` / `ZZG1` / `ZZG2` / `ZZG3` 四个投研主入口，并强化了 IMA 笔记上传、卖方研报先行、iFind / 妙想 / 中文搜索校验等工作要求。
-
-This public-ready edition removes hard-coded local paths and private notebook identifiers. Runtime integrations are configured through local files such as [config/ima.example.json](config/ima.example.json).
+The public edition focuses on four readable research entry skills: `company-analysis`, `industry-research`, `company-comparison`, and `event-driven-opportunity`. Reports are designed to be returned as complete Markdown in the current conversation.
 
 ## What It Does
 
@@ -16,17 +14,17 @@ Investor Harness 解决四类常见问题：
 |---|---|
 | 幻觉和编数据 | 强制区分公开事实、财报披露、市场共识、合理推演和待核验假设 |
 | 没有流程 | 用 skill 固化公司、行业、对比、事件、催化、盘面、路演等工作流 |
-| 没有归档 | 输出必须落到固定目录，并在需要时上传到 IMA 笔记本 |
+| 输出太散 | 按固定 Markdown 结构输出完整报告，便于复制、审阅和二次整理 |
 | 上下文丢失 | 通过 `core/` 协议、`.task-pulse`、checkpoint 和归档文件支持续跑 |
 
 ## Main Entry Skills
 
 | 用户意图 | 默认 skill | 输出 |
 |---|---|---|
-| 分析公司 / 看下个股 / 起 coverage | `ZZG` | 11 维公司分析报告 + IMA `Company Analysis` |
-| 行业框架 / 产业链地图 / 行业全景 | `ZZG1` | 10 段行业报告 + 财务对比表 + IMA `Industry Analysis` |
-| A vs B / 同业对比 / 谁更好 | `ZZG2` | 横向比较报告 + IMA `Comparison Analysis` |
-| 事件影响 / 哪些公司受益 / 事件驱动选股 | `ZZG3` | 公司影响判断与候选分层 + IMA `Event Driven Analysis` |
+| 分析公司 / 看下个股 / 起 coverage | `company-analysis` | 11 维公司分析报告 |
+| 行业框架 / 产业链地图 / 行业全景 | `industry-research` | 10 段行业报告 + 财务对比表 |
+| A vs B / 同业对比 / 谁更好 | `company-comparison` | 横向比较报告 |
+| 事件影响 / 哪些公司受益 / 事件驱动选股 | `event-driven-opportunity` | 公司影响判断与候选分层 |
 
 此外，仓库还保留并增强了 `sm-thesis`、`sm-consensus-watch`、`sm-catalyst-monitor`、`sm-stock-screen`、`sm-tape-review`、`sm-deck-builder`、`sm-daily-feed` 等投研辅助 skill。
 
@@ -73,19 +71,9 @@ For A-share, Hong Kong stock, and US stock company or industry research, the har
 
 Conclusions should be traceable to those materials, and weak evidence should be labeled instead of silently blended into the argument.
 
-## IMA Upload Gate
+## Output Model
 
-The ZZG family treats IMA upload as part of task completion:
-
-| Skill | Notebook |
-|---|---|
-| `ZZG` | `Company Analysis` |
-| `ZZG1` | `Industry Analysis` |
-| `ZZG2` | `Comparison Analysis` |
-| `ZZG3` | `Event Driven Analysis` |
-
-The upload helper reads IMA credentials from the local user config directory. Credentials are not stored in this repository.
-Copy `config/ima.example.json` to `config/ima.local.json` and fill local values before using IMA upload. `config/*.local.json` is ignored by Git.
+Investor Harness returns complete Markdown reports in the current agent conversation. The public edition does not require writing report files to local folders and does not require uploading results to an external service.
 
 Security notes: [SECURITY.md](SECURITY.md).
 
@@ -96,7 +84,6 @@ The repository is Markdown-first. Most workflows run inside an agent that can re
 Common local requirements:
 
 - Git
-- Node.js, for IMA upload helper scripts
 - Python, for data and validation helpers
 - Optional data-source skills or MCP tools configured in the user environment
 
@@ -111,7 +98,7 @@ Useful entry points:
 
 ## Version
 
-Current local version: `0.9.2` plus ZZG workflow extensions.
+Current local version: `0.9.2`.
 
 See [CHANGELOG.md](CHANGELOG.md) for the public-facing change summary.
 

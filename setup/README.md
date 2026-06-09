@@ -52,7 +52,7 @@ my-investor-workspace/
 4. 编辑 `memory.md` 写入你的研究身份（卖方/买方/PM/个人）
 5. 开始用 `sm-autopilot` 等 skill 提问
 
-LLM 会在每次对话开始时自动读取对应的工作区入口文件（`AGENTS.md` 或 `CLAUDE.md`）和 `memory.md`，并用 Investor Harness 的纪律来回答你。之后任何覆盖池相关任务都应自动归档到 `coverage/{ticker}_{name}/...`，不能只留在对话里。
+LLM 会在每次对话开始时自动读取对应的工作区入口文件（`AGENTS.md` 或 `CLAUDE.md`）和 `memory.md`，并用 Investor Harness 的纪律来回答你。公开版默认在当前会话输出完整 Markdown；如果你需要长期资料库，可以再启用可选归档目录。
 
 ---
 

@@ -53,15 +53,15 @@
 - [ ] 至少 3 个"未来三个月跟踪指标"
 - [ ] 业务拆分有具体收入占比；没有口径就说明无法确认，不编数字
 
-### ZZG2 公司对比专属
+### company-comparison 公司对比专属
 
 - [ ] 已识别每家公司的代码、市场、交易所和可比性边界
 - [ ] 已分别读取目标公司近 5 年公司研报，并读取共同或相关行业研报
 - [ ] 已调用结构化数据工具校验公告、财报、行情、财务、股东、事件、新闻和行业指标
-- [ ] 已复用 `ZZG/data_agent.py` 或明确说明无法复用的原因
+- [ ] 已复用 `company-analysis/data_agent.py` 或明确说明无法复用的原因
 - [ ] 已给出同口径横向比较表，不是多份单公司报告拼接
 - [ ] 跨市场比较已说明会计准则、币种、报告期和披露频率差异
-- [ ] 已按 `ZZG2/SKILL.md` 指定的本地位置和 IMA 笔记本完成输出与上传；最终回复包含本地文件路径和 IMA 已上传确认；不输出 `note_id`，除非用户明确要求
+- [ ] 已按 `company-comparison/SKILL.md` 指定结构在当前会话输出完整 Markdown 对比报告
 
 ### sm-thesis 专属
 
@@ -234,7 +234,7 @@
 
 ### sm-deck-builder 专属
 
-- [ ] preamble Step 2 已读取同标的最新的 sm-thesis / ZZG / sm-company-deepdive 等研究底稿
+- [ ] preamble Step 2 已读取同标的最新的 sm-thesis / company-analysis / sm-company-deepdive 等研究底稿
 - [ ] 至少有一份 deepdive 或 thesis 作为内容来源（不能凭空生成 deck）
 - [ ] Slide 结构符合所选 deck_type 的标准（ic-pitch 10 页 / roadshow 6 页 等）
 - [ ] Slide 1（封面）包含：标的名、ticker、分析师、日期、conviction、免责声明
@@ -256,7 +256,7 @@
 - [ ] §3 K 线形态有明确判断（不只是描述）
 - [ ] §4 技术指标**带实际数值**（禁止凭印象写"金叉"）
 - [ ] §5 至少 2 个支撑位 + 2 个压力位
-- [ ] §6 一致性检验**必须**引用最新 sm-thesis 或 ZZG / sm-company-deepdive 结论
+- [ ] §6 一致性检验**必须**引用最新 sm-thesis 或 company-analysis / sm-company-deepdive 结论
 - [ ] §7 明日观察点带"如果 X → 意味着 Y"的条件式判断
 - [ ] 没有"必涨"、"突破在即"等武断表述
 - [ ] 没有日内 / 小时级 / 分钟级建议
