@@ -112,6 +112,8 @@ The `examples/` directory contains public, synthetic examples that show how the 
 - [Industry research](examples/industry-research-synthetic.md)
 - [Company comparison](examples/company-comparison-synthetic.md)
 - [Event-driven opportunity analysis](examples/event-driven-opportunity-synthetic.md)
+- [Golden-template-style company demo](examples/golden-template-company-demo.md)
+- [Golden-template-style industry demo](examples/golden-template-industry-demo.md)
 
 Security notes: [SECURITY.md](SECURITY.md).
 
@@ -137,7 +139,7 @@ Useful entry points:
 
 ## Version
 
-Current local version: `0.9.2`.
+Current local version: `0.9.3`.
 
 See [CHANGELOG.md](CHANGELOG.md) for the public-facing change summary.
 

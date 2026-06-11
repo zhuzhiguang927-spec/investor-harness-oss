@@ -1,4 +1,4 @@
-<!-- investor-harness:keyword-routes:start v0.9.2 -->
+<!-- investor-harness:keyword-routes:start v0.9.3 -->
 <!--
   这块由 investor-harness ONBOARDING.md 自动管理。
   下次升级时整块替换。**不要手动编辑**——改 setup/keyword-routes.md 然后重跑 onboarding。

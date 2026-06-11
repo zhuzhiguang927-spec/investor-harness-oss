@@ -248,8 +248,8 @@ select_data_sources() {
   say "▎ Step 3 · 配置数据源"
   echo
 
-  info "Investor Harness 支持付费/本地数据源 + 免费兜底："
-  info "  IMA MCP 四个正文可读固定知识库 → 妙想 skill → Alpha派 → 进门财经 → Wind → cn-web-search → WebSearch → 用户贴（爱分享仅补充线索）"
+  info "Investor Harness 支持公开资料优先 + 可选本地数据源 + 免费兜底："
+  info "  近 5 年卖方研报正文/PDF → 公告/财报/官方披露 → 可选结构化数据源 → cn-web-search → WebSearch → 用户贴"
   echo
 
   # 检测 MCP
@@ -411,7 +411,8 @@ build_data_sources_chain() {
   local chain=""
   chain="${chain}**A 股 / 公募 (CN-A / CN-FUND)**:\n"
   local idx=1
-  chain="${chain}  $idx. IMA MCP 四个正文可读固定知识库（智汇研/研万里/研智声/研讯龙，ID 见 core/adapters.md；爱分享仅补充线索）\n"; idx=$((idx+1))
+  chain="${chain}  $idx. 东方财富近 5 年卖方研报正文/PDF/转载正文\n"; idx=$((idx+1))
+  chain="${chain}  $idx. 公司公告 / 财报 / 官方披露\n"; idx=$((idx+1))
   [[ " $DATA_SOURCES " == *" miaoxiang "* || " $DATA_SOURCES " == *" ifind "* ]] && { chain="${chain}  $idx. 妙想 skill A 股/公募（公告、财报、行情、财务、股东、事件、新闻、行业指标、定性研究材料）\n"; idx=$((idx+1)); }
   [[ " $DATA_SOURCES " == *" alphapie "* ]] && { chain="${chain}  $idx. Alpha派 MCP (补充 / 互验)\n"; idx=$((idx+1)); }
   [[ " $DATA_SOURCES " == *" wind "* ]] && { chain="${chain}  $idx. Wind MCP (高质量财务数据)\n"; idx=$((idx+1)); }
@@ -422,8 +423,8 @@ build_data_sources_chain() {
 
   chain="${chain}\n**港股 (HK)**:\n"
   idx=1
-  chain="${chain}  $idx. IMA MCP 四个正文可读固定知识库（智汇研/研万里/研智声/研讯龙，ID 见 core/adapters.md；爱分享仅补充线索）\n"; idx=$((idx+1))
-  chain="${chain}  $idx. 东方财富近 5 年卖方研报正文/PDF/转载正文\n"; idx=$((idx+1))
+  chain="${chain}  $idx. 近 5 年卖方研报正文/PDF/转载正文\n"; idx=$((idx+1))
+  chain="${chain}  $idx. 公司公告 / 财报 / 官方披露\n"; idx=$((idx+1))
   [[ " $DATA_SOURCES " == *" miaoxiang "* || " $DATA_SOURCES " == *" ifind "* ]] && { chain="${chain}  $idx. 妙想 skill 港股（公告、财报、行情、财务、事件、新闻、行业指标、定性研究材料）\n"; idx=$((idx+1)); }
   [[ " $DATA_SOURCES " == *" cn-web-search "* ]] && { chain="${chain}  $idx. cn-web-search skill\n"; idx=$((idx+1)); }
   [[ " $DATA_SOURCES " == *" websearch "* ]] && { chain="${chain}  $idx. WebSearch（兜底）\n"; idx=$((idx+1)); }
@@ -431,8 +432,8 @@ build_data_sources_chain() {
 
   chain="${chain}\n**美股 (US)**:\n"
   idx=1
-  chain="${chain}  $idx. IMA MCP 四个正文可读固定知识库（智汇研/研万里/研智声/研讯龙，ID 见 core/adapters.md；爱分享仅补充线索）\n"; idx=$((idx+1))
-  chain="${chain}  $idx. 东方财富近 5 年卖方研报正文/PDF/转载正文\n"; idx=$((idx+1))
+  chain="${chain}  $idx. 近 5 年卖方研报正文/PDF/转载正文\n"; idx=$((idx+1))
+  chain="${chain}  $idx. 公司公告 / 财报 / 官方披露\n"; idx=$((idx+1))
   [[ " $DATA_SOURCES " == *" miaoxiang "* || " $DATA_SOURCES " == *" ifind "* ]] && { chain="${chain}  $idx. 妙想 skill 美股（公告、财报、行情、财务、事件、新闻、行业指标、定性研究材料）\n"; idx=$((idx+1)); }
   [[ " $DATA_SOURCES " == *" websearch "* ]] && { chain="${chain}  $idx. WebSearch (SEC EDGAR)\n"; idx=$((idx+1)); }
   chain="${chain}  $idx. 用户手动贴材料\n"
@@ -516,12 +517,10 @@ render_entry_md_section() {
 1. 后台事实可靠性自检
 2. 内部记录资料缺口；最终报告只写影响核心结论的缺口
 3. 合规声明
-4. 归档到 \`${coverage_root}/{ticker}/{skill}/YYYY-MM-DD-{skill}.md\`
+4. 默认在当前会话输出完整 Markdown；如用户需要，可选归档到 \`${coverage_root}/{ticker}/{skill}/YYYY-MM-DD-{skill}.md\`
 5. 更新 .task-pulse + active-tasks.md
 6. 验收清单
-7. **Dual Output** — 对话贴完整输出 + 同时写文件；末尾追加 📁 已归档提示 + 关键统计
-
-⛔ **不要只回摘要**——云端用户打不开本地文件。
+7. **Chat-first Output** — 在当前会话贴完整 Markdown；文件归档和外部上传只是用户自选扩展
 
 ## 数据源优先级（本机配置）
 

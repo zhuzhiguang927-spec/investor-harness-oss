@@ -13,7 +13,7 @@ Run these checks from the repository root:
 ```powershell
 git status --short --branch
 git diff --check
-rg -n --hidden --glob '!*.git/**' --glob '!node_modules/**' -i "(api[_-]?key|secret|token|password|client_secret|private[_-]?key|C:\\\\Users\\\\|folder[0-9a-f]{8,}|note_id [0-9])"
+rg -n --hidden --glob '!*.git/**' --glob '!node_modules/**' -i "(api[_-]?key|secret|token|password|client_secret|private[_-]?key|C:\\\\Users\\\\|folder[0-9a-f]{8,}|private notebook id)"
 ```
 
 Expected result:

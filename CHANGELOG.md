@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.9.3
+
+- Added local public checks for route, manifest, Python, and onboarding validation.
+- Added `scripts/check_routes.py` to catch route drift, missing skill directories, legacy private skill names, and private-edition completion text.
+- Added `scripts/smoke_onboarding.py` to verify the public route block and workspace bootstrap flow.
+- Added golden-template-style synthetic demos for A-share-style company and industry research.
+- Updated `setup/bootstrap.sh` so smoke workspaces include `coverage/`, `themes/`, and `briefings/`.
+- Cleaned public setup/update generated text so core reports default to complete Markdown in the current conversation.
+
 ## 0.9.2
 
 - Added `company-analysis` as the default company / individual-stock research entry.

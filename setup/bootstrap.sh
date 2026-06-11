@@ -29,6 +29,9 @@ This will create a new analyst workspace at <target-dir> with:
   - research-queue.md  (research backlog)
   - biases.md          (your known biases)
   - active-tasks.md    (in-progress task state, v0.3+)
+  - coverage/          (optional company archive root)
+  - themes/            (optional theme / industry archive root)
+  - briefings/         (optional briefing archive root)
 
 Example:
   bash setup/bootstrap.sh ~/my-research
@@ -159,6 +162,14 @@ if [[ ! -d "$CKPT_DIR" ]]; then
   mkdir -p "$CKPT_DIR"
   echo "  ✓ created:  .checkpoint/ (resume directory)"
 fi
+
+for d in coverage themes briefings; do
+  dir="$TARGET_DIR/$d"
+  if [[ ! -d "$dir" ]]; then
+    mkdir -p "$dir"
+    echo "  ✓ created:  $d/ (optional research archive directory)"
+  fi
+done
 
 # v0.7: create user-templates/ and user-skills/ for task permanence
 USER_TEMPLATES_DIR="$TARGET_DIR/user-templates"

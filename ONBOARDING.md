@@ -235,7 +235,7 @@ grep -c "investor-harness:keyword-routes" <target_md>
 
 ### 你装的是什么
 
-**Investor Harness v0.9.2** — 投研人的 AI 任务执行规范。开源，MIT 协议。
+**Investor Harness v0.9.3** — 投研人的 AI 任务执行规范。开源，MIT 协议。
 GitHub: https://github.com/zhuzhiguang927-spec/investor-harness-oss
 
 ### 它解决的问题

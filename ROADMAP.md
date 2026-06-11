@@ -2,11 +2,11 @@
 
 ## Near Term
 
-- Add more public example reports with synthetic or fully sourced data.
-- Add stronger CI checks for route-table consistency.
+- Add more public example reports with synthetic or fully sourced data. (v0.9.3 added golden-template-style demos; more sourced examples remain open.)
+- Add stronger CI checks for route-table consistency. (first pass shipped in v0.9.3)
 - Add Markdown link checking.
-- Add a small command-line smoke test for onboarding and skill discovery.
-- Add a route consistency checker for `manifest.yaml`, `setup/keyword-routes.md`, and skill frontmatter.
+- Add a small command-line smoke test for onboarding and skill discovery. (first pass shipped in v0.9.3)
+- Add a route consistency checker for `manifest.yaml`, `setup/keyword-routes.md`, and skill frontmatter. (first pass shipped in v0.9.3)
 
 ## Medium Term
 

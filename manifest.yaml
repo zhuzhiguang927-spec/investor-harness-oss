@@ -3,8 +3,8 @@
 
 name: investor-harness
 display_name: Investor Harness
-version: 0.9.2
-description: 投研人的 AI 任务执行规范。公司/个股研究默认入口统一为 company-analysis，行业研究为 industry-research，公司对比为 company-comparison，事件驱动机会分析为 event-driven-opportunity；这些 skill 共享 Investor Harness 资料来源、证据纪律和 Markdown 输出结构。v0.9.2 新增 sm-industry-database（产业 / 公司数据库搭建），要求关键数据来源和口径备查，弱来源/口径冲突/自行估算才在正文短句备注。v0.9.1 新增 ONBOARDING 流程——首次启动 agent 时自动展示功能 + 关键词路由表，用户输入"同意"后 agent 自动检测 harness 类型（Claude Code / Codex / OpenCode / OpenClaw）+ 在对应入口 MD（CLAUDE.md / AGENTS.md）追加带 BEGIN/END marker 的路由块。v0.9 Librarian 升级（6 个 opt-in skill）。v0.8 sm-deck-builder。v0.7 L1/L2/L3 用户自定义。
+version: 0.9.3
+description: 投研人的 AI 任务执行规范。公司/个股研究默认入口统一为 company-analysis，行业研究为 industry-research，公司对比为 company-comparison，事件驱动机会分析为 event-driven-opportunity；这些 skill 共享 Investor Harness 资料来源、证据纪律和 Markdown 输出结构。v0.9.3 新增公开版 route consistency checker、onboarding smoke test、golden-template-style synthetic demos，并进一步清理公开版完成口径：核心报告默认在当前会话输出完整 Markdown，外部上传和本地归档只是用户自选扩展。v0.9.2 新增 sm-industry-database（产业 / 公司数据库搭建），要求关键数据来源和口径备查，弱来源/口径冲突/自行估算才在正文短句备注。v0.9.1 新增 ONBOARDING 流程——首次启动 agent 时自动展示功能 + 关键词路由表，用户输入"同意"后 agent 自动检测 harness 类型（Claude Code / Codex / OpenCode / OpenClaw）+ 在对应入口 MD（CLAUDE.md / AGENTS.md）追加带 BEGIN/END marker 的路由块。v0.9 Librarian 升级（6 个 opt-in skill）。v0.8 sm-deck-builder。v0.7 L1/L2/L3 用户自定义。
 license: MIT
 author: Investor Harness contributors
 homepage: https://github.com/zhuzhiguang927-spec/investor-harness-oss
@@ -105,9 +105,21 @@ skills:
   - id: sm-roadshow-questions
     path: skills/sm-roadshow-questions
     tier: monitoring
+  - id: sm-hourly-watch
+    path: skills/sm-hourly-watch
+    tier: monitoring
+    description: 覆盖池 / 自选股小时级盯盘，按固定时间窗比较价格、新闻、公告和催化剂变化。
+  - id: sm-close-recap
+    path: skills/sm-close-recap
+    tier: monitoring
+    description: 收盘复盘，解释股票池或覆盖标的当日涨跌、原因变化和后续观察点。
   - id: sm-red-team
     path: skills/sm-red-team
     tier: challenge
+  - id: sm-stock-screen
+    path: skills/sm-stock-screen
+    tier: discovery
+    description: 选股 / 找标的，把模糊方向拆成筛选框架、候选分层和后续验证清单。
   - id: sm-pm-brief
     path: skills/sm-pm-brief
     tier: output
@@ -163,6 +175,10 @@ skills:
     path: skills/sm-qa-archive
     tier: librarian
     description: 会后 Q&A 归档 + wiki 级联更新（双链复利执行端）— v0.9 新增
+  - id: sm-people-watch
+    path: skills/sm-people-watch
+    tier: librarian
+    description: 关键人物 / KOL / 社区跟踪，记录重要观点变化并结构化输出跟踪摘要。
 
 core:
   - path: core/evidence.md

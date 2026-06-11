@@ -22,7 +22,7 @@ The public edition should not require committed credentials or private notebook 
 Before pushing:
 
 ```powershell
-rg -n --hidden --glob '!*.git/**' --glob '!node_modules/**' -i "(api[_-]?key|secret|token|password|client_secret|private[_-]?key|C:\\\\Users\\\\|folder[0-9a-f]{8,}|note_id [0-9])"
+rg -n --hidden --glob '!*.git/**' --glob '!node_modules/**' -i "(api[_-]?key|secret|token|password|client_secret|private[_-]?key|C:\\\\Users\\\\|folder[0-9a-f]{8,}|private notebook id)"
 ```
 
 Review every hit. Documentation may mention credential paths, but no actual secret value should appear.

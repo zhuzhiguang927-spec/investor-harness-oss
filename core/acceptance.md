@@ -247,7 +247,7 @@
 - [ ] UI 遵守硬约束：< 3 种字体 / < 3 种颜色 / 无 3D 图表 / 无 clipart
 - [ ] 归档到 `{coverage}/{ticker}/decks/{YYYY-MM-DD}-{deck-type}.pptx`
 - [ ] 同时保存 markdown 版本 `.md`（用于对话预览和 diff）
-- [ ] Dual Output：对话贴 markdown 大纲 + 文件写 .pptx
+- [ ] Chat-first Output：对话贴 markdown 大纲；如用户需要，另行生成 .pptx
 
 ### sm-tape-review 专属
 
@@ -276,7 +276,7 @@ LLM 在输出末尾必须显式跑一遍验收，输出形如：
 - A. Preamble: ✅ A1 ✅ A2 ✅ A3 ✅ A4 ✅ A5
 - B. 事实可靠性: ✅ B1 ✅ B2 ✅ B3 ✅ B4 ✅ B5
 - C. 结构: ✅ C1 ✅ C2 ✅ C3 ✅ C4 ✅ C5
-- D. 归档: ✅ D1 ✅ D2 ✅ D3 ✅ D4
+- D. 输出: ✅ D1 ✅ D2 ✅ D3 ✅ D4
 - E. 合规: ✅ E1 ✅ E2 ✅ E3 ✅ E4 ✅ E5
 
 **sm-{skill} 专属**:

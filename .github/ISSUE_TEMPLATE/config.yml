@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Investor Harness discussions
+    url: https://github.com/zhuzhiguang927-spec/investor-harness-oss/discussions
+    about: Share workflow feedback, A-share research use cases, and data-source ideas.
